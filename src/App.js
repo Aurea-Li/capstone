@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-
 import FrontPage from './components/auth/FrontPage'
 import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
