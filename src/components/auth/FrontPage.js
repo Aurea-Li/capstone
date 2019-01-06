@@ -1,9 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const FrontPage = () => {
+const FrontPage = (props) => {
   return (
-    <div>
-      This is the FrontPage.
+    <div class="container">
+      <Link to='/signin' className="btn btn-primary">Sign In</Link>
+      <Link to='/signup' className="btn btn-primary">Sign Up</Link>
     </div>
   )
 }
