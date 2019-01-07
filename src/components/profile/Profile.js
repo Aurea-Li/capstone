@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import Navbar from '../layout/Navbar'
+import Library from './Library'
+import BookRequests from './BookRequests'
 
 const Profile = (props) => {
   const { auth } = props;
@@ -10,6 +12,8 @@ const Profile = (props) => {
     <div>
       <Navbar />
       This is the Profile.
+      <Library />
+      <BookRequests />
     </div>
   )
 }
