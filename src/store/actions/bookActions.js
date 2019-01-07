@@ -17,3 +17,18 @@ export const addBook = (book) => {
     })
   }
 };
+
+export const removeBook = (book) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    // make async call to database
+    const firestore = getFirestore();
+    console.log('in removebook',book,getState());
+
+    firestore.collection('books').doc(book.id).delete()
+    .then(() => {
+      dispatch({ type: 'REMOVE_BOOK', book });
+    }).catch(error => {
+      dispatch({ type: 'REMOVE_BOOK_ERROR', error })
+    })
+  }
+};

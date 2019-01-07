@@ -6,17 +6,17 @@ import { Redirect } from 'react-router-dom'
 import Navbar from '../layout/Navbar'
 import Library from './Library'
 import BookRequests from './BookRequests'
-import { addBook } from '../../store/actions/bookActions'
+import { addBook, removeBook } from '../../store/actions/bookActions'
 
 
 const Profile = (props) => {
-  const { auth, books, addBook } = props;
+  const { auth, books, addBook, removeBook } = props;
   if (!auth.uid) return <Redirect to='/frontpage' />
   return (
     <div>
       <Navbar />
       This is the Profile.
-      <Library books={books} addBook={addBook}/>
+      <Library books={books} addBook={addBook} removeBook={removeBook} />
       <BookRequests />
     </div>
   )
@@ -31,7 +31,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addBook: (book) => dispatch(addBook(book))
+    addBook: (book) => dispatch(addBook(book)),
+    removeBook: (book) => dispatch(removeBook(book))
   }
 }
 

@@ -14,6 +14,7 @@ class Library extends Component {
   }
 
   onSubmit = (e) => {
+    console.log('in onsubmit');
     e.preventDefault();
     this.props.addBook(this.state);
 
@@ -24,10 +25,10 @@ class Library extends Component {
 
   render () {
 
-    const { books } = this.props;
+    const { books, removeBook } = this.props;
 
     const bookList = books && books.map((book, i) => {
-      return (<Book key={i} book={book} />)
+      return (<Book key={i} book={book} removeBook={removeBook} />)
     });
 
     return (
