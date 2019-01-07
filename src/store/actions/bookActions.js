@@ -11,16 +11,18 @@ export const addBook = ({ title }) => {
     .then((response) => { response.json().then((response) => {
 
         const results = response.items[0].volumeInfo;
+        console.log(results);
         const book = {
           title: results.title,
           authors: results.authors,
-          categories: results.categories,
-          img: results.imageLinks.smallThumbnail
+          img: results.imageLinks.smallThumbnail,
+          status: 'Available',
+          borrowerID: null,
+          borrowedDate: null
         }
 
         firestore.collection('books').add({
           ...book,
-          owner: `${profile.firstName} ${profile.lastName}`,
           userID
         }).then(() => {
           dispatch({ type: 'ADD_BOOK', book });
