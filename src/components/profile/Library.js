@@ -14,7 +14,6 @@ class Library extends Component {
   }
 
   onSubmit = (e) => {
-    console.log('in onsubmit');
     e.preventDefault();
     this.props.addBook(this.state);
 
@@ -32,7 +31,7 @@ class Library extends Component {
     });
 
     return (
-      <section className="container">
+      <section>
         <h2>Library</h2>
 
 
@@ -41,7 +40,7 @@ class Library extends Component {
             onChange={this.onChange} value={this.state.title} placeholder="Add Book Title..."/>
           </form>
 
-        <section className="container book-list">
+        <section className="book-list">
           { bookList }
         </section>
       </section>
