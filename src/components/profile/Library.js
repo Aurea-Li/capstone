@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Book from '../dashboard/Book'
 
 class Library extends Component {
 
@@ -7,25 +8,45 @@ class Library extends Component {
   }
 
   onChange = (e) => {
-    console.log(e.target);
     this.setState({
       [e.target.id]: e.target.value
     });
   }
 
-  render () {
-    return (
-      <div className="container">
-      <h2>Library</h2>
+  onSubmit = (e) => {
+    console.log('in onSubmit', e);
+    e.preventDefault();
+    this.props.addBook(this.state);
 
-
-      <input type="search" id="title" className="form-control" value={this.state.title} onChange={this.onChange} placeholder="Add Book Title..."/>
-      </div>
-
-    )
+    this.setState({
+      title: ''
+    })
   }
 
+  render () {
 
+    const { books } = this.props;
+
+    const bookList = books && books.map((book, i) => {
+      return (<Book key={i} book={book} />)
+    });
+
+    return (
+      <section className="container">
+        <h2>Library</h2>
+
+
+          <form onSubmit={this.onSubmit}>
+          <input type="search" className="form-control" id="title"
+            onChange={this.onChange} placeholder="Add Book Title..."/>
+          </form>
+
+        <section className="container book-list">
+          { bookList }
+        </section>
+      </section>
+    )
+  }
 }
 
 export default Library
