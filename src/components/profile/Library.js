@@ -14,7 +14,6 @@ class Library extends Component {
   }
 
   onSubmit = (e) => {
-    console.log('in onSubmit', e);
     e.preventDefault();
     this.props.addBook(this.state);
 
@@ -38,7 +37,7 @@ class Library extends Component {
 
           <form onSubmit={this.onSubmit}>
           <input type="search" className="form-control" id="title"
-            onChange={this.onChange} placeholder="Add Book Title..."/>
+            onChange={this.onChange} value={this.state.title} placeholder="Add Book Title..."/>
           </form>
 
         <section className="container book-list">
