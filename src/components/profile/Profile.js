@@ -38,7 +38,8 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([
-    { collection: 'books' }
+  firestoreConnect(props => [
+    { collection: 'books',
+      where: [['userID', '==', props.auth.uid ? props.auth.uid : null ]]}
   ])
 )(Profile)
