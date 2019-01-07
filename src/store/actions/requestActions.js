@@ -1,4 +1,4 @@
-export const addBook = ({ title }) => {
+export const addRequest = ({ title }) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
 
     const firestore = getFirestore();
@@ -10,41 +10,38 @@ export const addBook = ({ title }) => {
     .then((response) => { response.json().then((response) => {
 
         const results = response.items[0].volumeInfo;
-        console.log(results);
-        const book = {
+
+        const request = {
           title: results.title,
           authors: results.authors,
-          img: results.imageLinks.smallThumbnail,
-          status: 'Available',
-          borrowerID: null,
-          borrowedDate: null
+          img: results.imageLinks.smallThumbnail
         }
 
-        firestore.collection('books').add({
-          ...book,
+        firestore.collection('requests').add({
+          ...request,
           userID
         }).then(() => {
-          dispatch({ type: 'ADD_BOOK' });
+          dispatch({ type: 'ADD_REQUEST' });
         }).catch(error => {
-          dispatch({ type: 'ADD_BOOK_ERROR', error })
+          dispatch({ type: 'ADD_REQUEST_ERROR', error })
         })
       })
     }).catch(error => {
-      dispatch({ type: 'ADD_BOOK_ERROR', error })
+      dispatch({ type: 'ADD_REQUEST_ERROR', error })
     });
   }
 };
 
-export const removeBook = (book) => {
+export const removeRequest = (request) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
 
     const firestore = getFirestore();
 
-    firestore.collection('books').doc(book.id).delete()
+    firestore.collection('requests').doc(request.id).delete()
     .then(() => {
-      dispatch({ type: 'REMOVE_BOOK', book });
+      dispatch({ type: 'REMOVE_REQUEST' });
     }).catch(error => {
-      dispatch({ type: 'REMOVE_BOOK_ERROR', error })
+      dispatch({ type: 'REMOVE_REQUEST_ERROR', error })
     })
   }
 };

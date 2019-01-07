@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Book from '../dashboard/Book'
+import Item from '../dashboard/Item'
 
 class Library extends Component {
 
@@ -27,7 +27,7 @@ class Library extends Component {
     const { books, removeBook } = this.props;
 
     const bookList = books && books.map((book, i) => {
-      return (<Book key={i} book={book} removeBook={removeBook} />)
+      return (<Item key={i} item={book} removeItem={removeBook} />)
     });
 
     return (
