@@ -7,8 +7,9 @@ const Item = ({ item, removeItem }) => {
   return (
     <div className="container">
     <h3>{title}</h3>
-    <h4>{authors.join()}</h4>
+    <h4>{authors.join(', ')}</h4>
     <img src={img} alt={title} />
+    <p>{ item.status ? item.status : null }</p>
     <button onClick={() => removeItem(item)}> Remove </button>
   </div>
   )
