@@ -9,20 +9,30 @@ import GroupPage from '../groups/GroupPage'
 class Dashboard extends Component {
 
   state = {
-    loading: true
+    activeGroup: false
   };
 
   componentDidUpdate = (prevProps) => {
 
     if (prevProps.groups !== this.props.groups) {
-      this.setState({ loading: false });
+      this.setState({
+        activeGroup: this.props.groups[0] });
     }
   }
 
+  selectGroup = (group) => {
+
+    this.setState({
+      activeGroup: group
+    });
+  }
+
   render () {
-    if (!this.state.loading){
+    const { activeGroup } = this.state;
+    if (activeGroup){
 
       const { auth, groups } = this.props;
+      const { activeGroup } = this.state;
 
 
       if (!auth.uid) { return <Redirect to='/frontpage' /> }
@@ -31,8 +41,11 @@ class Dashboard extends Component {
           <div>
             <Navbar />
             This is the Dashboard.
-            <GroupLinks groups={groups}/>
-            <GroupPage group={groups && groups[0]}/>
+            <GroupLinks
+              groups={groups}
+              selectGroup={(group) => this.selectGroup(group)} />
+            <GroupPage
+              group={activeGroup}/>
           </div>
         )
       } else {
