@@ -11,11 +11,7 @@ exports.groupCreated = functions.firestore
   .document('groups/{groupID}')
   .onCreate(doc => {
 
-    console.log('inside functions first');
-
     const group = doc.data();
-
-    console.log('inside functions',group);
 
     const groupUser = {
       groupID: '1234',
