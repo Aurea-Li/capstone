@@ -7,8 +7,6 @@ const Navbar = (props) => {
   return (
     <ul>
       <li><NavLink to='/'>Dashboard</NavLink></li>
-      <li><NavLink to='/signup'>Sign Up</NavLink></li>
-      <li><NavLink to='/signin'>Sign In</NavLink></li>
       <li>
         <a onClick={props.signOut}> Log Out </a>
       </li>
