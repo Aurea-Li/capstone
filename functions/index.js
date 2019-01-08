@@ -2,9 +2,14 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-const createGroupUser = ((groupUser) => {
-  return admin.firestore().collection('groupuser').add(groupUser)
-  .then(doc => console.log('groupuser added', doc));
+const createUserGroups = ((uid) => {
+  return admin.firestore().collection('usergroups').doc(`${uid}`).set({
+  });
+});
+
+const createGroupUsers = ((groupID) => {
+  return admin.firestore().collection('groupusers').doc(`${groupID}`).set({
+  });
 });
 
 exports.groupCreated = functions.firestore
@@ -13,11 +18,26 @@ exports.groupCreated = functions.firestore
 
     const group = doc.data();
 
-    const groupUser = {
-      groupID: '1234',
-      userID: '12355'
+    const groupUsers = {
+      [`${group.id}`]: { [`${group.uid}`]: true }
     };
 
-    return createGroupUser(groupUser);
+    admin.firestore().collection('usergroups').get(`${group.uid}`).update({
+      [`${group.id}`]: true
+    });
 
+    return createGroupUsers(groupUsers);
+
+});
+
+exports.userJoined = functions.auth
+.user()
+.onCreate(user => {
+
+  return admin.firestore().collection('users')
+  .doc(user.uid).get().then(doc => {
+
+    return createUserGroups(user.uid);
   });
+
+});
