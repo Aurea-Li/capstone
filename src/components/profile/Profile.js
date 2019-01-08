@@ -11,13 +11,14 @@ import {addRequest, removeRequest } from '../../store/actions/requestActions'
 
 
 const Profile = (props) => {
+
   const { auth, books, requests, addBook, removeBook, addRequest, removeRequest } = props;
   if (!auth.uid) return <Redirect to='/frontpage' />
   return (
     <div>
       <Navbar />
       <Library books={books} addBook={addBook} removeBook={removeBook} />
-      
+
       <BookRequests requests={requests}
         addRequest={addRequest}
         removeRequest={removeRequest}/>
