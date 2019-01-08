@@ -7,26 +7,25 @@ const createUserGroups = ((uid) => {
   });
 });
 
-const createGroupUsers = ((groupID) => {
+const createGroupUsers = ((userID, groupID) => {
   return admin.firestore().collection('groupusers').doc(`${groupID}`).set({
+    [`${userID}`]: true
   });
 });
 
 exports.groupCreated = functions.firestore
   .document('groups/{groupID}')
-  .onCreate(doc => {
+  .onCreate((doc, context) => {
 
-    const group = doc.data();
+    const userID = doc.data().adminID;
+    const { groupID } = context.params;
 
-    const groupUsers = {
-      [`${group.id}`]: { [`${group.uid}`]: true }
-    };
 
-    admin.firestore().collection('usergroups').get(`${group.uid}`).update({
-      [`${group.id}`]: true
+    admin.firestore().collection('usergroups').doc(`${userID}`).update({
+      [`${groupID}`]: true
     });
 
-    return createGroupUsers(groupUsers);
+    return createGroupUsers(userID, groupID);
 
 });
 
