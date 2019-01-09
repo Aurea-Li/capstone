@@ -18,8 +18,6 @@ export const createGroup = (group) => {
 
 export const joinGroup = (group) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
-    
-    console.log('join group triggered');
 
     const firestore = getFirestore();
     const uid = getState().firebase.auth.uid;

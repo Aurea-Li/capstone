@@ -3,7 +3,6 @@ const initState = {
 }
 
 const groupReducer = (state = initState, action) => {
-  console.log('action is', action);
   switch(action.type){
     case 'ADD_GROUP':
       return {

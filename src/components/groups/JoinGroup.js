@@ -8,7 +8,7 @@ import Navbar from '../layout/Navbar'
 
 const  JoinGroup = ({ auth, groups, joinGroup, groupError }) => {
 
-  console.log(groupError);
+
   if (!auth.uid) return <Redirect to='/frontpage' />
 
   const groupList = groups && groups.map((group, i) => {
@@ -17,10 +17,10 @@ const  JoinGroup = ({ auth, groups, joinGroup, groupError }) => {
 
   return (
     <div>
-      <section>
-       { groupError ? groupError : null}
-      </section>
       <Navbar />
+      <section>
+      { groupError ? groupError : null}
+      </section>
       <h2>Available Groups</h2>
       <ul>
         {groupList}
