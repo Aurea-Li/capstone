@@ -7,4 +7,4 @@
 - https://github.com/firebase/functions-samples
 
 ## Endpoints
-- `https://us-central1-al-capstone.cloudfunctions.net/getMembers?groupID={groupID}`: Given the group ID, retrieves a list of all the member names.
+- `https://us-central1-al-capstone.cloudfunctions.net/app/members?groupID=${groupID}`: Given the group ID, retrieves a list of all the member names.

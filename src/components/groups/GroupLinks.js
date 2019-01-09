@@ -14,6 +14,7 @@ const GroupLinks = ({ groups, selectGroup }) => {
     <section>
       <ul>
         <li><NavLink to='/creategroup'>Create Group</NavLink></li>
+        <li><NavLink to='/joingroup'>Join Group</NavLink></li>
         {groupList}
       </ul>
     </section>

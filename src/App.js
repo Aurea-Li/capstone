@@ -5,6 +5,7 @@ import SignUp from './components/auth/SignUp'
 import Dashboard from './components/dashboard/Dashboard'
 import Profile from './components/profile/Profile'
 import CreateGroup from './components/groups/CreateGroup'
+import JoinGroup from './components/groups/JoinGroup'
 import FrontPage from './components/auth/FrontPage'
 
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
           <Route path='/signup' component={SignUp} />
           <Route path='/frontpage' component={FrontPage} />
           <Route path='/creategroup' component={CreateGroup} />
+          <Route path='/joingroup' component={JoinGroup} />
         </Switch>
       </div>
     </BrowserRouter>

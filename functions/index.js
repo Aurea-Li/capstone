@@ -65,7 +65,6 @@ app.get('/members',(request, response) => {
 
     const promises = [];
 
-
     Object.keys(data).forEach((userID) => {
       promises.push(
         admin.firestore().collection('users').doc(`${userID}`).get()
@@ -75,7 +74,10 @@ app.get('/members',(request, response) => {
     Promise.all(promises).then(querySnapshot => {
       const names = querySnapshot.map(query => {
         const data = query.data();
-        return `${data.firstName} ${data.lastName}`;
+        return {
+          name: `${data.firstName} ${data.lastName}`,
+          id: `${query.id}`
+        };
       });
 
       response.json(names);

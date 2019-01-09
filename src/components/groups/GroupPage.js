@@ -24,7 +24,7 @@ class GroupPage extends Component {
   render () {
 
     const memberList = this.state.members.map((member,i) => {
-      return <li key={i}>{member}</li>
+      return <li key={i}>{member.name}</li>
     })
 
     return (
