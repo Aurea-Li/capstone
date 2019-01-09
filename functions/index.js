@@ -50,10 +50,55 @@ exports.userJoined = functions.auth
 
 });
 
-app.get('/',(res,req) => {
-  res.json({ test: 'test' });
-})
+exports.bookCreated = functions.firestore
+  .document('books/{bookID}')
+  .onCreate((doc, context) => {
 
+    const userID = doc.data().userID;
+    const { bookID } = context.params;
+
+    return admin.firestore().collection('users').doc(`${userID}`).update({
+      books: admin.firestore.FieldValue.arrayUnion(`${bookID}`)
+    });
+
+});
+
+exports.bookDeleted = functions.firestore
+  .document('books/{bookID}')
+  .onDelete((doc, context) => {
+
+    const userID = doc.data().userID;
+    const { bookID } = context.params;
+
+    return admin.firestore().collection('users').doc(`${userID}`).update({
+      books: admin.firestore.FieldValue.arrayRemove(`${bookID}`)
+    });
+
+});
+
+exports.requestCreated = functions.firestore
+  .document('requests/{requestID}')
+  .onCreate((doc, context) => {
+
+    const userID = doc.data().userID;
+    const { requestID } = context.params;
+
+    return admin.firestore().collection('users').doc(`${userID}`).update({
+      requests: admin.firestore.FieldValue.arrayUnion(`${requestID}`)
+    });
+});
+
+exports.requestDeleted = functions.firestore
+  .document('requests/{requestID}')
+  .onDelete((doc, context) => {
+
+    const userID = doc.data().userID;
+    const { requestID } = context.params;
+
+    return admin.firestore().collection('users').doc(`${userID}`).update({
+      requests: admin.firestore.FieldValue.arrayRemove(`${requestID}`)
+    });
+});
 
 
 
@@ -115,7 +160,7 @@ app.get('/groups',(request, response) => {
       const groups = querySnapshot.map(query => {
 
         const { adminID, createdAt, name } = query.data();
-        
+
         return {
           adminID,
           createdAt,
@@ -136,5 +181,7 @@ app.get('/groups',(request, response) => {
   });
 
 });
+
+
 
 exports.app = functions.https.onRequest(app);
