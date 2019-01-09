@@ -46,9 +46,31 @@ exports.getMembers = functions.https.onRequest((request, response) => {
 
   const groupID = request.query.groupID;
 
-  admin.firestore().doc(`groupusers/${groupID}`).get()
+  admin.firestore().collection('groupusers').doc(`${groupID}`).get()
   .then(snapshot => {
-    response.send(snapshot.data());
+    const data = snapshot.data();
+
+    const promises = []
+
+
+    Object.keys(data).forEach((userID) => {
+      promises.push(
+        admin.firestore().collection('users').doc(`${userID}`).get()
+      );
+    })
+
+    Promise.all(promises).then(querySnapshot => {
+      const names = querySnapshot.map(query => {
+        const data = query.data();
+        return `${data.firstName} ${data.lastName}`;
+      });
+
+      response.send(names);
+
+    })
+    .catch(error => {
+      response.status(500).send(error);
+    });
   })
   .catch(error => {
     response.status(500).send(error);
