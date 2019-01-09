@@ -6,6 +6,10 @@ const GroupPage = ({ group }) => {
     <div>
     <h3>{group.name}</h3>
 
+    <section>
+    <h4>Members</h4>
+    
+    </section>
     </div>
   )
 }

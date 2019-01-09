@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+
 const createUserGroups = ((uid) => {
   return admin.firestore().collection('usergroups').doc(`${uid}`).set({
   });
@@ -40,3 +41,17 @@ exports.userJoined = functions.auth
   });
 
 });
+
+exports.getMembers = functions.https.onRequest((request, response) => {
+
+  const groupID = request.query.groupID;
+
+  admin.firestore().doc(`groupusers/${groupID}`).get()
+  .then(snapshot => {
+    response.send(snapshot.data());
+  })
+  .catch(error => {
+    response.status(500).send(error);
+  });
+
+})
