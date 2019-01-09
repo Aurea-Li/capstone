@@ -55,6 +55,8 @@ app.get('/',(res,req) => {
 })
 
 
+
+
 app.get('/members',(request, response) => {
 
   const groupID = request.query.groupID;
@@ -81,6 +83,48 @@ app.get('/members',(request, response) => {
       });
 
       response.json(names);
+
+    })
+    .catch(error => {
+      response.status(500).send(error);
+    });
+  })
+  .catch(error => {
+    response.status(500).send(error);
+  });
+
+});
+
+app.get('/groups',(request, response) => {
+
+  const { uid } = request.query;
+
+  admin.firestore().collection('usergroups').doc(`${uid}`).get()
+  .then(snapshot => {
+    const data = snapshot.data();
+
+    const promises = [];
+
+    Object.keys(data).forEach((groupID) => {
+      promises.push(
+        admin.firestore().collection('groups').doc(`${groupID}`).get()
+      );
+    })
+
+    Promise.all(promises).then(querySnapshot => {
+      const groups = querySnapshot.map(query => {
+
+        const { adminID, createdAt, name } = query.data();
+        
+        return {
+          adminID,
+          createdAt,
+          name,
+          id: `${query.id}`
+        };
+      });
+
+      response.json(groups);
 
     })
     .catch(error => {

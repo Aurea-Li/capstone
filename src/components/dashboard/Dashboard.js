@@ -1,23 +1,34 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
 import Navbar from '../layout/Navbar'
 import GroupLinks from '../groups/GroupLinks'
 import GroupPage from '../groups/GroupPage'
+import axios from 'axios'
+
 class Dashboard extends Component {
 
   state = {
-    activeGroup: false
+    activeGroup: false,
+    groups: []
   };
 
-  componentDidUpdate = (prevProps) => {
+  componentDidMount() {
+    const { uid } = this.props.auth;
 
-    if (prevProps.groups !== this.props.groups) {
+    const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/groups?uid=${uid}`;
+
+    axios.get(URL)
+    .then(response => {
+
       this.setState({
-        activeGroup: this.props.groups[0] });
-    }
+        groups: response.data,
+        activeGroup: response.data[0] });
+    })
+    .catch(error => {
+      console.log('Error in Dashboard getting groups', error.message);
+    });
+
   }
 
   selectGroup = (group) => {
@@ -28,46 +39,32 @@ class Dashboard extends Component {
   }
 
   render () {
-    const { activeGroup } = this.state;
-    if (activeGroup){
 
-      const { auth, groups } = this.props;
-      const { activeGroup } = this.state;
+    const { activeGroup , groups } = this.state;
+    const { auth } = this.props;
 
 
-      if (!auth.uid) { return <Redirect to='/frontpage' /> }
+    if (!auth.uid) { return <Redirect to='/frontpage' /> }
 
-        return (
-          <div>
-            <Navbar />
-            This is the Dashboard.
-            <GroupLinks
-              groups={groups}
-              selectGroup={(group) => this.selectGroup(group)} />
-            <GroupPage
-              group={activeGroup}/>
-          </div>
-        )
-      } else {
-        return (
-          <div>Loading...</div>
-        )
-      }
+      return (
+        <div>
+          <Navbar />
+          This is the Dashboard.
+          <GroupLinks
+            groups={groups}
+            selectGroup={(group) => this.selectGroup(group)} />
+          { activeGroup ? <GroupPage group={activeGroup}/> : null }
+        </div>
+      )
+
     }
-
   }
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
-    groups: state.firestore.ordered.groups
+    auth: state.firebase.auth
   }
 }
 
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([
-    { collection: 'groups' }
-  ])
-)(Dashboard)
+export default connect(mapStateToProps)(Dashboard)

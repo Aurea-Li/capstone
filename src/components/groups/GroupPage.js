@@ -7,18 +7,29 @@ class GroupPage extends Component {
     members: []
   }
 
-  componentDidMount() {
+  getGroupMembers() {
     const groupID = this.props.group.id;
     const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/members?groupID=${groupID}`;
 
     axios.get(URL)
     .then(response => {
-
       this.setState({ members: response.data  });
     })
     .catch(error => {
-      console.log('error!');
+      console.log('Error in getGroupMembers', error.message);
     });
+
+  }
+
+  componentDidMount() {
+    this.getGroupMembers();
+  }
+
+  componentDidUpdate(prevProps) {
+
+    if (prevProps.group !== this.props.group){
+      this.getGroupMembers();
+    }
   }
 
   render () {
