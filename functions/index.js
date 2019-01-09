@@ -1,6 +1,14 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
+// CORS Express middleware to enable CORS Requests.
+const express = require('express');
+const app = express();
+
+// [START middleware]
+const cors = require('cors')({origin: true});
+app.use(cors);
+// [END middleware]
 
 
 const createUserGroups = ((uid) => {
@@ -31,18 +39,23 @@ exports.groupCreated = functions.firestore
 });
 
 exports.userJoined = functions.auth
-.user()
-.onCreate(user => {
+  .user()
+  .onCreate(user => {
 
-  return admin.firestore().collection('users')
-  .doc(user.uid).get().then(doc => {
+    return admin.firestore().collection('users')
+    .doc(user.uid).get().then(doc => {
 
-    return createUserGroups(user.uid);
-  });
+      return createUserGroups(user.uid);
+    });
 
 });
 
-exports.getMembers = functions.https.onRequest((request, response) => {
+app.get('/',(res,req) => {
+  res.json({ test: 'test' });
+})
+
+
+app.get('/members',(request, response) => {
 
   const groupID = request.query.groupID;
 
@@ -50,7 +63,7 @@ exports.getMembers = functions.https.onRequest((request, response) => {
   .then(snapshot => {
     const data = snapshot.data();
 
-    const promises = []
+    const promises = [];
 
 
     Object.keys(data).forEach((userID) => {
@@ -65,7 +78,7 @@ exports.getMembers = functions.https.onRequest((request, response) => {
         return `${data.firstName} ${data.lastName}`;
       });
 
-      response.send(names);
+      response.json(names);
 
     })
     .catch(error => {
@@ -76,4 +89,6 @@ exports.getMembers = functions.https.onRequest((request, response) => {
     response.status(500).send(error);
   });
 
-})
+});
+
+exports.app = functions.https.onRequest(app);
