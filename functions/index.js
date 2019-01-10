@@ -100,8 +100,6 @@ exports.requestDeleted = functions.firestore
     });
 });
 
-
-
 app.get('/members',(request, response) => {
 
   const groupID = request.query.groupID;
@@ -137,7 +135,67 @@ app.get('/members',(request, response) => {
   .catch(error => {
     response.status(500).send(error);
   });
+});
 
+app.get('/availablebooks',(request, response) => {
+
+  const groupID = request.query.groupID;
+  const bookList = [];
+
+  admin.firestore().collection('groupusers').doc(`${groupID}`).get()
+  .then(snapshot => {
+    const data = snapshot.data();
+
+    const promises = [];
+
+    Object.keys(data).forEach((userID) => {
+      promises.push(
+        admin.firestore().collection('users').doc(`${userID}`).get()
+      );
+    })
+
+    Promise.all(promises).then(querySnapshot => {
+      querySnapshot.forEach(query => {
+        const data = query.data();
+
+        console.log('data is', data.books);
+
+        const bookPromises = [];
+        data.books.forEach(bookID => {
+          bookPromises.push(
+            admin.firestore().collection('books').doc(`${bookID}`).get()
+          );
+        });
+
+        Promise.all(bookPromises).then(bookQuerySnapshot => {
+          bookQuerySnapshot.forEach(bookQuery => {
+
+            const book = bookQuery.data();
+
+
+            if (book.status === 'Available'){
+              console.log('adding book', book);
+              bookList.push(book);
+            }
+
+          });
+
+          console.log('final books is',bookList);
+          response.json(bookList);
+
+        })
+        .catch(error => {
+          response.status(500).send(error);
+        });
+      });
+    })
+    .catch(error => {
+      response.status(500).send(error);
+    });
+  })
+  .catch(error => {
+    response.status(500).send(error);
+  });
 });
 
 app.get('/groups',(request, response) => {

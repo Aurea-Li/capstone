@@ -1,0 +1,28 @@
+[debug] [2019-01-09T23:57:53.512Z] ----------------------------------------------------------------------
+[debug] [2019-01-09T23:57:53.518Z] Command:       /usr/local/Cellar/node/11.1.0/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2019-01-09T23:57:53.518Z] CLI Version:   6.2.2
+[debug] [2019-01-09T23:57:53.518Z] Platform:      darwin
+[debug] [2019-01-09T23:57:53.518Z] Node Version:  v11.1.0
+[debug] [2019-01-09T23:57:53.519Z] Time:          Wed Jan 09 2019 15:57:53 GMT-0800 (Pacific Standard Time)
+[debug] [2019-01-09T23:57:53.520Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-01-09T23:57:53.529Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-01-09T23:57:53.530Z] > authorizing via signed-in user
+[debug] [2019-01-09T23:57:53.530Z] [iam] checking project al-capstone for permissions ["firebase.projects.get"]
+[debug] [2019-01-09T23:57:53.531Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/al-capstone:testIamPermissions  
+
+[debug] [2019-01-09T23:57:54.562Z] <<< HTTP RESPONSE 200
+[debug] [2019-01-09T23:57:54.564Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/al-capstone  
+ 
+[debug] [2019-01-09T23:57:54.908Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/Aurea/Desktop/GitHub/Ada-Projects/Capstone/capstone'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2019-01-09T23:57:55.878Z] Fetching environment
+[debug] [2019-01-09T23:57:55.881Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/690855319918:getServerAppConfig  
+ 
+[debug] [2019-01-09T23:57:56.164Z] <<< HTTP RESPONSE 200
+[debug] [2019-01-09T23:57:56.164Z] Starting @google-cloud/functions-emulator
+[debug] [2019-01-09T23:57:57.719Z] Parsing function triggers
+[info] ✔  functions: app: http://localhost:5000/al-capstone/us-central1/app
