@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import AvailableBooks from './AvailableBooks'
 
 class GroupPage extends Component {
 
@@ -38,9 +39,10 @@ class GroupPage extends Component {
       return <li key={i}>{member.name}</li>
     })
 
+    const { group } = this.props;
     return (
       <div>
-      <h3>{this.props.group.name}</h3>
+      <h3>{group.name}</h3>
 
       <section>
       <h4>Members</h4>
@@ -52,7 +54,7 @@ class GroupPage extends Component {
       </section>
 
       <section>
-        <h4>Available Books</h4>
+        <AvailableBooks groupID={group.id}/>
       </section>
       </div>
     )

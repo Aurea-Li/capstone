@@ -2,6 +2,7 @@
 
 ## Useful Commands
 - `firebase serve --only functions`: testing HTTP endpoints.
+- `firebase deploy --only functions:app`: deploy only endpoints.
 
 ## Useful Links
 - https://github.com/firebase/functions-samples

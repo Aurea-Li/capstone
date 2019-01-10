@@ -140,7 +140,6 @@ app.get('/members',(request, response) => {
 app.get('/availablebooks',(request, response) => {
 
   const groupID = request.query.groupID;
-  let bookIDs = [];
 
   admin.firestore().collection('groupusers').doc(`${groupID}`).get()
   .then(snapshot => {
@@ -156,13 +155,15 @@ app.get('/availablebooks',(request, response) => {
 
     Promise.all(promises).then(querySnapshot => {
 
+      let bookIDs = [];
       querySnapshot.forEach(query => {
 
-        console.log('query is', query.data());
-        bookIDs.push(query.data().books);
-      })
+        const userData = query.data();
 
-      bookIDs = bookIDs.flat();
+        userData.books.forEach(book => {
+          bookIDs.push(book);
+        });
+      })
 
       const bookPromises = [];
       bookIDs.forEach(bookID => {
@@ -187,18 +188,21 @@ app.get('/availablebooks',(request, response) => {
         response.json(bookList);
       })
       .catch(error => {
-        response.status(500).send(error);
+        response.status(500).send({ error: 'first promise failed' });
       })
-      
+
     })
     .catch(error => {
-      response.status(500).send(error);
+      response.status(500).send({
+        error: 'second promise failed -2:30 )',
+        data: data
+      });
     });
 
 
   })
   .catch(error => {
-    response.status(500).send(error);
+    response.status(500).send({ error: 'third promise failed' });
   });
 });
 
