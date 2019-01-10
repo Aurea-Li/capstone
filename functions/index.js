@@ -1,110 +1,44 @@
 const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-admin.initializeApp(functions.config().firebase);
-// CORS Express middleware to enable CORS Requests.
-const express = require('express');
-const app = express();
 
-// [START middleware]
-const cors = require('cors')({origin: true});
-app.use(cors);
-// [END middleware]
+const {
+  app,
+  db
+} = require('./admin');
 
+const groupCreated = require('./database-triggers/group/groupCreated')
+const userJoined = require('./database-triggers/user/userJoined')
+const bookCreated = require('./database-triggers/book/bookCreated')
+const bookDeleted = require('./database-triggers/book/bookDeleted')
+const requestCreated = require('./database-triggers/request/requestCreated')
+const requestDeleted = require('./database-triggers/request/requestDeleted')
 
-const createUserGroups = ((uid) => {
-  return admin.firestore().collection('usergroups').doc(`${uid}`).set({
-  });
-});
+module.exports = {
+  'groupCreated': functions.firestore
+    .document('groups/{groupID}')
+    .onCreate(groupCreated),
+  'userJoined': functions.auth
+    .user()
+    .onCreate(userJoined),
+  'bookCreated': functions.firestore
+    .document('books/{bookID}')
+    .onCreate(bookCreated),
+  'bookDeleted': functions.firestore
+    .document('books/{bookID}')
+    .onDelete(bookDeleted),
+  'requestCreated': functions.firestore
+    .document('requests/{requestID}')
+    .onCreate(requestCreated),
+  'requestDeleted': functions.firestore
+    .document('requests/{requestID}')
+    .onDelete(requestDeleted)
+};
 
-const createGroupUsers = ((userID, groupID) => {
-  return admin.firestore().collection('groupusers').doc(`${groupID}`).set({
-    [`${userID}`]: true
-  });
-});
-
-exports.groupCreated = functions.firestore
-  .document('groups/{groupID}')
-  .onCreate((doc, context) => {
-
-    const userID = doc.data().adminID;
-    const { groupID } = context.params;
-
-
-    admin.firestore().collection('usergroups').doc(`${userID}`).update({
-      [`${groupID}`]: true
-    });
-
-    return createGroupUsers(userID, groupID);
-
-});
-
-exports.userJoined = functions.auth
-  .user()
-  .onCreate(user => {
-
-    return admin.firestore().collection('users')
-    .doc(user.uid).get().then(doc => {
-
-      return createUserGroups(user.uid);
-    });
-
-});
-
-exports.bookCreated = functions.firestore
-  .document('books/{bookID}')
-  .onCreate((doc, context) => {
-
-    const userID = doc.data().userID;
-    const { bookID } = context.params;
-
-    return admin.firestore().collection('users').doc(`${userID}`).update({
-      books: admin.firestore.FieldValue.arrayUnion(`${bookID}`)
-    });
-
-});
-
-exports.bookDeleted = functions.firestore
-  .document('books/{bookID}')
-  .onDelete((doc, context) => {
-
-    const userID = doc.data().userID;
-    const { bookID } = context.params;
-
-    return admin.firestore().collection('users').doc(`${userID}`).update({
-      books: admin.firestore.FieldValue.arrayRemove(`${bookID}`)
-    });
-
-});
-
-exports.requestCreated = functions.firestore
-  .document('requests/{requestID}')
-  .onCreate((doc, context) => {
-
-    const userID = doc.data().userID;
-    const { requestID } = context.params;
-
-    return admin.firestore().collection('users').doc(`${userID}`).update({
-      requests: admin.firestore.FieldValue.arrayUnion(`${requestID}`)
-    });
-});
-
-exports.requestDeleted = functions.firestore
-  .document('requests/{requestID}')
-  .onDelete((doc, context) => {
-
-    const userID = doc.data().userID;
-    const { requestID } = context.params;
-
-    return admin.firestore().collection('users').doc(`${userID}`).update({
-      requests: admin.firestore.FieldValue.arrayRemove(`${requestID}`)
-    });
-});
 
 app.get('/members',(request, response) => {
 
   const groupID = request.query.groupID;
 
-  admin.firestore().collection('groupusers').doc(`${groupID}`).get()
+  db.collection('groupusers').doc(`${groupID}`).get()
   .then(snapshot => {
     const data = snapshot.data();
 
@@ -112,7 +46,7 @@ app.get('/members',(request, response) => {
 
     Object.keys(data).forEach((userID) => {
       promises.push(
-        admin.firestore().collection('users').doc(`${userID}`).get()
+        db.collection('users').doc(`${userID}`).get()
       );
     })
 
@@ -141,7 +75,7 @@ app.get('/availablebooks',(request, response) => {
 
   const groupID = request.query.groupID;
 
-  admin.firestore().collection('groupusers').doc(`${groupID}`).get()
+  db.collection('groupusers').doc(`${groupID}`).get()
   .then(snapshot => {
     const data = snapshot.data();
 
@@ -149,7 +83,7 @@ app.get('/availablebooks',(request, response) => {
 
     Object.keys(data).forEach((userID) => {
       promises.push(
-        admin.firestore().collection('users').doc(`${userID}`).get()
+        db.collection('users').doc(`${userID}`).get()
       );
     })
 
@@ -168,7 +102,7 @@ app.get('/availablebooks',(request, response) => {
       const bookPromises = [];
       bookIDs.forEach(bookID => {
         bookPromises.push(
-          admin.firestore().collection('books').doc(`${bookID}`).get()
+          db.collection('books').doc(`${bookID}`).get()
         )
       })
 
@@ -206,11 +140,12 @@ app.get('/availablebooks',(request, response) => {
   });
 });
 
+
 app.get('/groups',(request, response) => {
 
   const { uid } = request.query;
 
-  admin.firestore().collection('usergroups').doc(`${uid}`).get()
+  db.collection('usergroups').doc(`${uid}`).get()
   .then(snapshot => {
     const data = snapshot.data();
 
@@ -218,7 +153,7 @@ app.get('/groups',(request, response) => {
 
     Object.keys(data).forEach((groupID) => {
       promises.push(
-        admin.firestore().collection('groups').doc(`${groupID}`).get()
+        db.collection('groups').doc(`${groupID}`).get()
       );
     })
 
