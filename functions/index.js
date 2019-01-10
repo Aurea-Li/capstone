@@ -140,7 +140,7 @@ app.get('/members',(request, response) => {
 app.get('/availablebooks',(request, response) => {
 
   const groupID = request.query.groupID;
-  const bookList = [];
+  let bookIDs = [];
 
   admin.firestore().collection('groupusers').doc(`${groupID}`).get()
   .then(snapshot => {
@@ -155,43 +155,47 @@ app.get('/availablebooks',(request, response) => {
     })
 
     Promise.all(promises).then(querySnapshot => {
+
       querySnapshot.forEach(query => {
-        const data = query.data();
 
-        console.log('data is', data.books);
+        console.log('query is', query.data());
+        bookIDs.push(query.data().books);
+      })
 
-        const bookPromises = [];
-        data.books.forEach(bookID => {
-          bookPromises.push(
-            admin.firestore().collection('books').doc(`${bookID}`).get()
-          );
-        });
+      bookIDs = bookIDs.flat();
 
-        Promise.all(bookPromises).then(bookQuerySnapshot => {
-          bookQuerySnapshot.forEach(bookQuery => {
+      const bookPromises = [];
+      bookIDs.forEach(bookID => {
+        bookPromises.push(
+          admin.firestore().collection('books').doc(`${bookID}`).get()
+        )
+      })
 
-            const book = bookQuery.data();
+      Promise.all(bookPromises).then(bookquerySnapshot => {
 
+        const bookList = [];
+        bookquerySnapshot.forEach(bookQuery => {
+          const book = bookQuery.data();
 
-            if (book.status === 'Available'){
-              console.log('adding book', book);
-              bookList.push(book);
-            }
-
-          });
-
-          console.log('final books is',bookList);
-          response.json(bookList);
+          if (book.status === 'Available'){
+            bookList.push(book);
+          }
 
         })
-        .catch(error => {
-          response.status(500).send(error);
-        });
-      });
+
+        // save here
+        response.json(bookList);
+      })
+      .catch(error => {
+        response.status(500).send(error);
+      })
+      
     })
     .catch(error => {
       response.status(500).send(error);
     });
+
+
   })
   .catch(error => {
     response.status(500).send(error);
