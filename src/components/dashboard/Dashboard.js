@@ -46,16 +46,25 @@ class Dashboard extends Component {
 
     if (!auth.uid) { return <Redirect to='/frontpage' /> }
 
-      return (
-        <div>
-          <Navbar />
-          This is the Dashboard.
-          <GroupLinks
-            groups={groups}
-            selectGroup={(group) => this.selectGroup(group)} />
-          { activeGroup ? <GroupPage group={activeGroup}/> : null }
-        </div>
-      )
+      if (!activeGroup){
+        return (
+          <div>
+            <p>Loading...</p>
+          </div>
+        )
+      } else {
+
+        return (
+          <div>
+            <Navbar />
+            This is the Dashboard.
+            <GroupLinks
+              groups={groups}
+              selectGroup={(group) => this.selectGroup(group)} />
+            { activeGroup ? <GroupPage group={activeGroup}/> : null }
+          </div>
+        )
+      }
 
     }
   }
