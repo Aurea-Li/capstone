@@ -33,8 +33,16 @@ class AvailableBooks extends Component {
   }
 
   render () {
-    const bookList = this.state.books.map((book,i) => {
-      return <li key={i}>{book.title}</li>
+    const { books } = this.state;
+    const bookList = books.map((bookInfo,i) => {
+      return (
+        <li key={i}>
+          <h5>{bookInfo.book.title}</h5>
+          <div>
+            <p>Owned by: {bookInfo.user.firstName} {bookInfo.user.lastName}</p>
+          </div>
+        </li>
+      )
     });
 
 

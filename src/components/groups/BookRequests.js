@@ -33,8 +33,16 @@ class BookRequests extends Component {
   }
 
   render () {
-    const requestList = this.state.requests.map((request,i) => {
-      return <li key={i}>{request.title}</li>
+    const { requests } = this.state;
+    const requestList = requests.map((requestInfo,i) => {
+      return (
+        <li key={i}>
+          <h5>{requestInfo.request.title}</h5>
+          <div>
+            <p>Requested by: {requestInfo.user.firstName} {requestInfo.user.lastName}</p>
+          </div>
+        </li>
+      )
     });
 
 
