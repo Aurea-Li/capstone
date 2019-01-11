@@ -3,7 +3,7 @@ const {
 } = require('../admin');
 
 
-const availableBooks = (request, response) => {
+const bookRequests = (request, response) => {
 
   const groupID = request.query.groupID;
 
@@ -21,37 +21,33 @@ const availableBooks = (request, response) => {
 
     Promise.all(promises).then(querySnapshot => {
 
-      let bookIDs = [];
+      let requestIDs = [];
       querySnapshot.forEach(query => {
 
         const userData = query.data();
 
-        userData.books.forEach(book => {
-          bookIDs.push(book);
+        userData.requests.forEach(request => {
+          requestIDs.push(request);
         });
       })
 
-      const bookPromises = [];
-      bookIDs.forEach(bookID => {
-        bookPromises.push(
-          db.collection('books').doc(`${bookID}`).get()
+      const requestPromises = [];
+      requestIDs.forEach(requestID => {
+        requestPromises.push(
+          db.collection('requests').doc(`${requestID}`).get()
         )
       })
 
-      Promise.all(bookPromises).then(bookquerySnapshot => {
+      Promise.all(requestPromises).then(requestquerySnapshot => {
 
-        const bookList = [];
-        bookquerySnapshot.forEach(bookQuery => {
-          const book = bookQuery.data();
-
-          if (book.status === 'Available'){
-            bookList.push(book);
-          }
-
+        const requestList = [];
+        requestquerySnapshot.forEach(requestQuery => {
+          const request = requestQuery.data();
+          requestList.push(request);
         })
 
         // save here
-        response.json(bookList);
+        response.json(requestList);
       })
       .catch(error => {
         response.status(500).send({ error: 'first promise failed' });
@@ -61,11 +57,10 @@ const availableBooks = (request, response) => {
     .catch(error => {
       response.status(500).send({ error: 'second promise failed' });
     });
-
   })
   .catch(error => {
     response.status(500).send({ error: 'third promise failed' });
   });
 }
 
-module.exports = availableBooks;
+module.exports = bookRequests;

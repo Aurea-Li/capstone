@@ -11,15 +11,15 @@ const bookDeleted = require('./database-triggers/book/bookDeleted')
 const requestCreated = require('./database-triggers/request/requestCreated')
 const requestDeleted = require('./database-triggers/request/requestDeleted')
 
-const members = require('./api-endpoints/members')
-const availableBooks = require('./api-endpoints/availableBooks')
-const groups = require('./api-endpoints/groups')
-
+const members = require('./api-endpoints/Members')
+const availableBooks = require('./api-endpoints/AvailableBooks')
+const groups = require('./api-endpoints/Groups')
+const bookRequests = require('./api-endpoints/BookRequests')
 
 app.get('/members',members);
 app.get('/availablebooks',availableBooks);
 app.get('/groups',groups);
-
+app.get('/bookrequests',bookRequests);
 
 
 module.exports = {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AvailableBooks from './AvailableBooks'
+import BookRequests from './BookRequests'
 
 class GroupPage extends Component {
 
@@ -50,7 +51,7 @@ class GroupPage extends Component {
       </section>
 
       <section>
-        <h4>Book Requests</h4>
+        <BookRequests groupID={group.id}/>
       </section>
 
       <section>
