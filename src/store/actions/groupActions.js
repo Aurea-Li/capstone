@@ -43,15 +43,19 @@ export const leaveGroup = (group) => {
       }
       else {
 
-        firestore.collection('usergroups').doc(`${uid}`).update({
-          [`${group.id}`]: firebase.firestore.FieldValue.delete()
-        });
+        const promises = [
+          firestore.collection('usergroups').doc(`${uid}`).update({
+            [`${group.id}`]: firebase.firestore.FieldValue.delete()
+          }),
+          firestore.collection('groupusers').doc(`${group.id}`).update({
+            [`${uid}`]: firebase.firestore.FieldValue.delete()
+          })
+        ];
 
-        firestore.collection('groupusers').doc(`${group.id}`).update({
-          [`${uid}`]: firebase.firestore.FieldValue.delete()
-        });
-
-        dispatch({ type: 'LEAVE_GROUP' });
+        Promise.all(promises).then(() => {
+          console.log('all promises fulfilled!');
+          dispatch({ type: 'LEAVE_GROUP' });
+        })
 
       }
     })

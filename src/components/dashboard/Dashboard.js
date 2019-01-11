@@ -15,6 +15,7 @@ class Dashboard extends Component {
   };
 
   getGroups() {
+    console.log('inside getGroups');
     const { uid } = this.props.auth;
 
     const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/groups?uid=${uid}`;
@@ -22,6 +23,7 @@ class Dashboard extends Component {
     axios.get(URL)
     .then(response => {
 
+      console.log('response.data is', response.data);
       this.setState({
         groups: response.data,
         activeGroup: response.data[0] });
@@ -35,6 +37,14 @@ class Dashboard extends Component {
     this.getGroups();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+
+    if (prevState.activeGroup !== this.state.activeGroup && this.state.activeGroup === false){
+      console.log('inside componentdidupdate');
+      this.getGroups();
+    }
+  }
+
   selectGroup = (group) => {
 
     this.setState({
@@ -42,10 +52,22 @@ class Dashboard extends Component {
     });
   }
 
+  leaveGroup = (group) => {
+    console.log('inside leaveGroup');
+    this.props.leaveGroup(group);
+    
+    this.setState({
+      activeGroup: false
+    });
+
+  }
+
   render () {
 
+    console.log('inside render');
     const { activeGroup , groups } = this.state;
-    const { auth, leaveGroup } = this.props;
+    console.log('list of groups', groups);
+    const { auth } = this.props;
 
 
     if (!auth.uid) { return <Redirect to='/frontpage' /> }
@@ -67,7 +89,7 @@ class Dashboard extends Component {
               selectGroup={(group) => this.selectGroup(group)} />
             { activeGroup ? <GroupPage
               group={activeGroup}
-              leaveGroup={() => leaveGroup(activeGroup)} /> : null }
+              leaveGroup={() => this.leaveGroup(activeGroup)} /> : null }
           </div>
         )
       }
