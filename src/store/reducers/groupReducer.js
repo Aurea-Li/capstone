@@ -5,10 +5,6 @@ const initState = {
 const groupReducer = (state = initState, action) => {
   switch(action.type){
     case 'GET_GROUPS':
-    console.log('inside groupReducer',{
-      ...state,
-      groups: action.groups
-    });
       return {
         ...state,
         groups: action.groups
@@ -16,7 +12,7 @@ const groupReducer = (state = initState, action) => {
     case 'ADD_GROUP':
       return {
         ...state,
-        groupError: null
+        groups: [...state.groups, action.group]
       }
     case 'ADD_GROUP_ERROR':
       return {
@@ -26,7 +22,7 @@ const groupReducer = (state = initState, action) => {
     case 'JOIN_GROUP':
       return {
         ...state,
-        groupError: null
+        groups: [...state.groups, action.group]
       }
     case 'JOIN_GROUP_ERROR':
       return {
@@ -34,10 +30,22 @@ const groupReducer = (state = initState, action) => {
         groupError: action.error.message
       }
       case 'LEAVE_GROUP':
+
+        let index = 0;
+        for (let i = 0; i < state.groups.length; i += 1){
+          if (state.groups[i].id === action.group.id){
+            index = i;
+          }
+        }
+
         return {
           ...state,
-          groupError: null
+          groups: [
+            ...state.groups.slice(0, index),
+            ...state.groups.slice(index + 1)
+          ]
         }
+
       case 'LEAVE_GROUP_ERROR':
         return {
           ...state,

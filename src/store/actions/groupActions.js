@@ -58,8 +58,9 @@ export const leaveGroup = (group) => {
         ];
 
         Promise.all(promises).then(() => {
-          console.log('all promises fulfilled!');
-          dispatch({ type: 'LEAVE_GROUP' });
+          dispatch({ type: 'LEAVE_GROUP',
+                     group
+                   });
         })
 
       }
@@ -108,7 +109,9 @@ export const joinGroup = (group) => {
           [`${uid}`]: true
         });
 
-        dispatch({ type: 'JOIN_GROUP' });
+        dispatch({ type: 'JOIN_GROUP',
+                   group
+                 });
 
       }
     })

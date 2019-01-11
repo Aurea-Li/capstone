@@ -14,7 +14,6 @@ class Dashboard extends Component {
   };
 
   getGroups() {
-    console.log('inside getGroups');
     const { uid } = this.props.auth;
 
     const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/groups?uid=${uid}`;
@@ -22,8 +21,7 @@ class Dashboard extends Component {
     axios.get(URL)
     .then(response => {
 
-      console.log('response.data is', response.data);
-      this.props.getGroups(response.data)
+      this.props.getGroups(response.data);
 
       this.setState({ activeGroup: response.data[0] });
     })
@@ -36,13 +34,15 @@ class Dashboard extends Component {
     this.getGroups();
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //
-  //   if (prevState.activeGroup !== this.state.activeGroup && this.state.activeGroup === false){
-  //     console.log('inside componentdidupdate');
-  //     this.getGroups();
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+
+    if (prevProps.groups !== this.props.groups){
+
+      this.setState({
+        activeGroup: this.props.groups[0]
+      });
+    }
+  }
 
   selectGroup = (group) => {
 
@@ -52,18 +52,12 @@ class Dashboard extends Component {
   }
 
   leaveGroup = (group) => {
-    console.log('inside leaveGroup');
     this.props.leaveGroup(group);
-
-    this.setState({
-      activeGroup: false
-    });
 
   }
 
   render () {
 
-    console.log('inside render');
     const { activeGroup } = this.state;
     const { auth, groups } = this.props;
 
@@ -96,7 +90,6 @@ class Dashboard extends Component {
   }
 
 const mapStateToProps = (state) => {
-  console.log('inside mapStatetoprops in Dashboard', state);
   return {
     auth: state.firebase.auth,
     groups: state.group.groups
