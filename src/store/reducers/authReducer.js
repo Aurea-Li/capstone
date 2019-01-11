@@ -4,6 +4,12 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
   switch(action.type){
+    case 'GET_MEMBERS':
+
+      return {
+        ...state,
+        members: action.members
+      }
     case 'LOGIN_ERROR':
       return {
         ...state,

@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import AvailableBooks from './AvailableBooks'
 import BookRequests from './BookRequests'
+import { getMembers } from '../../store/actions/authActions'
 
 class GroupPage extends Component {
-
-  state = {
-    members: []
-  }
 
   getGroupMembers() {
     const groupID = this.props.group.id;
@@ -15,7 +13,8 @@ class GroupPage extends Component {
 
     axios.get(URL)
     .then(response => {
-      this.setState({ members: response.data  });
+      this.props.getMembers(response.data);
+
     })
     .catch(error => {
       console.log('Error in getGroupMembers', error.message);
@@ -36,7 +35,7 @@ class GroupPage extends Component {
 
   render () {
 
-    const memberList = this.state.members.map((member,i) => {
+    const memberList = this.props.members && this.props.members.map((member,i) => {
       return <li key={i}>{member.name}</li>
     })
 
@@ -66,4 +65,16 @@ class GroupPage extends Component {
   }
 }
 
-export default GroupPage
+const mapStateToProps = (state) => {
+  return {
+    members: state.auth.members
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getMembers: (groups) => dispatch(getMembers(groups))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupPage)

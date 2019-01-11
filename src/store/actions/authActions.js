@@ -1,3 +1,8 @@
+export const getMembers = members => ({
+  type: 'GET_MEMBERS',
+  members
+})
+
 export const signIn = (credentials) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();

@@ -13,7 +13,7 @@ class Dashboard extends Component {
     activeGroup: false
   };
 
-  getGroups() {
+  componentDidMount() {
     const { uid } = this.props.auth;
 
     const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/groups?uid=${uid}`;
@@ -24,14 +24,11 @@ class Dashboard extends Component {
       this.props.getGroups(response.data);
 
       this.setState({ activeGroup: response.data[0] });
+
     })
     .catch(error => {
       console.log('Error in Dashboard getting groups', error.message);
     });
-  }
-
-  componentDidMount() {
-    this.getGroups();
   }
 
   componentDidUpdate(prevProps) {
@@ -53,7 +50,6 @@ class Dashboard extends Component {
 
   leaveGroup = (group) => {
     this.props.leaveGroup(group);
-
   }
 
   render () {
@@ -64,21 +60,21 @@ class Dashboard extends Component {
 
     if (!auth.uid) { return <Redirect to='/frontpage' /> }
 
-      if (!activeGroup){
-        return (
-          <div>
-            <p>Loading...</p>
-          </div>
-        )
-      } else {
+    if (!activeGroup){
+      return (
+        <div>
+          <p>Loading...</p>
+        </div>
+      )
+    } else {
 
-        return (
-          <div>
-            <Navbar />
-            This is the Dashboard.
-            <GroupLinks
-              groups={groups}
-              selectGroup={(group) => this.selectGroup(group)} />
+      return (
+        <div>
+          <Navbar />
+          This is the Dashboard.
+          <GroupLinks
+            groups={groups}
+            selectGroup={(group) => this.selectGroup(group)} />
             { activeGroup ? <GroupPage
               group={activeGroup}
               leaveGroup={() => this.leaveGroup(activeGroup)} /> : null }
