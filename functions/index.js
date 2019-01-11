@@ -15,11 +15,14 @@ const members = require('./api-endpoints/Members')
 const availableBooks = require('./api-endpoints/AvailableBooks')
 const groups = require('./api-endpoints/Groups')
 const bookRequests = require('./api-endpoints/BookRequests')
+const borrowedBooks = require('./api-endpoints/borrowedBooks')
+
 
 app.get('/members',members);
 app.get('/availablebooks',availableBooks);
 app.get('/groups',groups);
 app.get('/bookrequests',bookRequests);
+app.get('/borrowedbooks',borrowedBooks);
 
 
 module.exports = {

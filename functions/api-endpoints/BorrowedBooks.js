@@ -5,14 +5,22 @@ const {
 
 const borrowedBooks = (request, response) => {
 
-  const userID = request.query.userID;
+  const uid = request.query.uid;
 
-  db.collection('books').where("borrowerID", "==", `${userID}`).then(snapshot => {
-    const data = snapshot.data();
+  let books = [];
+  db.collection('books').where("borrowerID", "==", uid).get().then(querySnapshot => {
 
-    response.json(data);
+    console.log('inside query wheee');
+    querySnapshot.forEach(query => {
+      console.log('inside foreach', query.data());
+
+      books.push(query.data());
+    })
+    response.json(books);
   })
-
+  .catch(error => {
+    response.status(500).send({ error: 'borrowedbooks api call failed' })
+  });
 }
 
 module.exports = borrowedBooks;
