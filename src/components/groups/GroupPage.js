@@ -47,7 +47,9 @@ class GroupPage extends Component {
 
       <section>
       <h4>Members</h4>
-      {memberList}
+      <ul>
+        {memberList}
+      </ul>
       </section>
 
       <section>

@@ -21,33 +21,39 @@ const bookRequests = (request, response) => {
 
     Promise.all(promises).then(querySnapshot => {
 
-      let requestIDs = [];
+      let requestInfo = [];
       querySnapshot.forEach(query => {
 
         const userData = query.data();
 
-        userData.requests.forEach(request => {
-          requestIDs.push(request);
+        userData.requests.forEach(requestID => {
+          requestInfo.push({
+            user: userData,
+            request: requestID
+          });
         });
       })
 
       const requestPromises = [];
-      requestIDs.forEach(requestID => {
+      requestInfo.forEach(request => {
         requestPromises.push(
-          db.collection('requests').doc(`${requestID}`).get()
+          db.collection('requests').doc(`${request.request}`).get()
         )
       })
 
       Promise.all(requestPromises).then(requestquerySnapshot => {
 
-        const requestList = [];
+
+        let index = 0;
         requestquerySnapshot.forEach(requestQuery => {
           const request = requestQuery.data();
-          requestList.push(request);
+
+          requestInfo[index].request = request;
+          index++;
         })
 
         // save here
-        response.json(requestList);
+        response.json(requestInfo);
       })
       .catch(error => {
         response.status(500).send({ error: 'first promise failed' });
