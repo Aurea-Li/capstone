@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import AvailableBook from './items/AvailableBook'
 
 class AvailableBooks extends Component {
 
@@ -37,10 +38,7 @@ class AvailableBooks extends Component {
     const bookList = books.map((bookInfo,i) => {
       return (
         <li key={i}>
-          <h5>{bookInfo.book.title}</h5>
-          <div>
-            <p>Owned by: {bookInfo.user.firstName} {bookInfo.user.lastName}</p>
-          </div>
+          <AvailableBook bookInfo={bookInfo} />
         </li>
       )
     });
