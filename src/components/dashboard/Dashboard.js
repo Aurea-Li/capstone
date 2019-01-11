@@ -5,6 +5,7 @@ import Navbar from '../layout/Navbar'
 import GroupLinks from '../groups/GroupLinks'
 import GroupPage from '../groups/GroupPage'
 import axios from 'axios'
+import { leaveGroup } from '../../store/actions/groupActions'
 
 class Dashboard extends Component {
 
@@ -13,7 +14,7 @@ class Dashboard extends Component {
     groups: []
   };
 
-  componentDidMount() {
+  getGroups() {
     const { uid } = this.props.auth;
 
     const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/groups?uid=${uid}`;
@@ -28,7 +29,10 @@ class Dashboard extends Component {
     .catch(error => {
       console.log('Error in Dashboard getting groups', error.message);
     });
+  }
 
+  componentDidMount() {
+    this.getGroups();
   }
 
   selectGroup = (group) => {
@@ -41,7 +45,7 @@ class Dashboard extends Component {
   render () {
 
     const { activeGroup , groups } = this.state;
-    const { auth } = this.props;
+    const { auth, leaveGroup } = this.props;
 
 
     if (!auth.uid) { return <Redirect to='/frontpage' /> }
@@ -61,7 +65,9 @@ class Dashboard extends Component {
             <GroupLinks
               groups={groups}
               selectGroup={(group) => this.selectGroup(group)} />
-            { activeGroup ? <GroupPage group={activeGroup}/> : null }
+            { activeGroup ? <GroupPage
+              group={activeGroup}
+              leaveGroup={() => leaveGroup(activeGroup)} /> : null }
           </div>
         )
       }
@@ -75,5 +81,11 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    leaveGroup: (group) => dispatch(leaveGroup(group))
+  }
+}
 
-export default connect(mapStateToProps)(Dashboard)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

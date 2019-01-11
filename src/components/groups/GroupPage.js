@@ -45,6 +45,8 @@ class GroupPage extends Component {
       <div>
       <h3>{group.name}</h3>
 
+      <button onClick={this.props.leaveGroup}>Leave Group</button>
+
       <section>
       <h4>Members</h4>
       <ul>

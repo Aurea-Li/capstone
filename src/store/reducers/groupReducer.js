@@ -24,6 +24,16 @@ const groupReducer = (state = initState, action) => {
         ...state,
         groupError: action.error.message
       }
+      case 'LEAVE_GROUP':
+        return {
+          ...state,
+          groupError: null
+        }
+      case 'LEAVE_GROUP_ERROR':
+        return {
+          ...state,
+          groupError: action.error.message
+        }
     default:
       return state
   }

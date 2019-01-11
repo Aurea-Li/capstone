@@ -16,6 +16,55 @@ export const createGroup = (group) => {
   }
 };
 
+export const leaveGroup = (group) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+
+    const firestore = getFirestore();
+    const firebase = getFirebase();
+    const uid = getState().firebase.auth.uid;
+
+    const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/members?groupID=${group.id}`;
+
+    fetch(URL, { method: 'GET' })
+    .then(res => { res.json().then(res => {
+
+      // Check if user is already in group
+      let neverJoined = true;
+      res.forEach(member => {
+        if (member.id === uid){
+
+          neverJoined = false;
+        }
+      });
+
+      if (neverJoined){
+        const error = { message: `not in group ${group.name}`};
+        dispatch({ type: 'LEAVE_GROUP_ERROR', error })
+      }
+      else {
+
+        firestore.collection('usergroups').doc(`${uid}`).update({
+          [`${group.id}`]: firebase.firestore.FieldValue.delete()
+        });
+
+        firestore.collection('groupusers').doc(`${group.id}`).update({
+          [`${uid}`]: firebase.firestore.FieldValue.delete()
+        });
+
+        dispatch({ type: 'LEAVE_GROUP' });
+
+      }
+    })
+    .catch(error => {
+      dispatch({ type: 'LEAVE_GROUP_ERROR', error });
+    })
+    })
+    .catch(error => {
+      dispatch({ type: 'LEAVE_GROUP_ERROR', error });
+    });
+  }
+}
+
 export const joinGroup = (group) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
 
@@ -57,9 +106,9 @@ export const joinGroup = (group) => {
     .catch(error => {
       dispatch({ type: 'JOIN_GROUP_ERROR', error });
     })
-  })
-  .catch(error => {
-    dispatch({ type: 'JOIN_GROUP_ERROR', error });
-  });
-}
+    })
+    .catch(error => {
+      dispatch({ type: 'JOIN_GROUP_ERROR', error });
+    });
+  }
 }
