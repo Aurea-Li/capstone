@@ -6,9 +6,10 @@ const AvailableBook = ({ bookInfo }) => {
     <div>
     <h5>{bookInfo.book.title}</h5>
 
-    <div>
+
       <p>Owned by: {bookInfo.user.firstName} {bookInfo.user.lastName}</p>
-    </div>
+
+      <button>Request Book</button>
 
     </div>
   )

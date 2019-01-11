@@ -1,3 +1,8 @@
+export const getGroups = groups => ({
+  type: 'GET_GROUPS',
+  groups
+})
+
 export const createGroup = (group) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
 

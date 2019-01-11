@@ -5,13 +5,12 @@ import Navbar from '../layout/Navbar'
 import GroupLinks from '../groups/GroupLinks'
 import GroupPage from '../groups/GroupPage'
 import axios from 'axios'
-import { leaveGroup } from '../../store/actions/groupActions'
+import { leaveGroup, getGroups } from '../../store/actions/groupActions'
 
 class Dashboard extends Component {
 
   state = {
-    activeGroup: false,
-    groups: []
+    activeGroup: false
   };
 
   getGroups() {
@@ -24,9 +23,9 @@ class Dashboard extends Component {
     .then(response => {
 
       console.log('response.data is', response.data);
-      this.setState({
-        groups: response.data,
-        activeGroup: response.data[0] });
+      this.props.getGroups(response.data)
+
+      this.setState({ activeGroup: response.data[0] });
     })
     .catch(error => {
       console.log('Error in Dashboard getting groups', error.message);
@@ -37,13 +36,13 @@ class Dashboard extends Component {
     this.getGroups();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-
-    if (prevState.activeGroup !== this.state.activeGroup && this.state.activeGroup === false){
-      console.log('inside componentdidupdate');
-      this.getGroups();
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //
+  //   if (prevState.activeGroup !== this.state.activeGroup && this.state.activeGroup === false){
+  //     console.log('inside componentdidupdate');
+  //     this.getGroups();
+  //   }
+  // }
 
   selectGroup = (group) => {
 
@@ -55,7 +54,7 @@ class Dashboard extends Component {
   leaveGroup = (group) => {
     console.log('inside leaveGroup');
     this.props.leaveGroup(group);
-    
+
     this.setState({
       activeGroup: false
     });
@@ -65,9 +64,8 @@ class Dashboard extends Component {
   render () {
 
     console.log('inside render');
-    const { activeGroup , groups } = this.state;
-    console.log('list of groups', groups);
-    const { auth } = this.props;
+    const { activeGroup } = this.state;
+    const { auth, groups } = this.props;
 
 
     if (!auth.uid) { return <Redirect to='/frontpage' /> }
@@ -98,14 +96,17 @@ class Dashboard extends Component {
   }
 
 const mapStateToProps = (state) => {
+  console.log('inside mapStatetoprops in Dashboard', state);
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    groups: state.group.groups
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    leaveGroup: (group) => dispatch(leaveGroup(group))
+    leaveGroup: (group) => dispatch(leaveGroup(group)),
+    getGroups: (groups) => dispatch(getGroups(groups))
   }
 }
 

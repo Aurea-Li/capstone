@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom'
 import Navbar from '../layout/Navbar'
 import Library from './Library'
 import BookRequests from './BookRequests'
+import BorrowedBooks from './BorrowedBooks'
 import { addBook, removeBook } from '../../store/actions/bookActions'
 import {addRequest, removeRequest } from '../../store/actions/requestActions'
 
@@ -22,6 +23,7 @@ const Profile = (props) => {
       <BookRequests requests={requests}
         addRequest={addRequest}
         removeRequest={removeRequest}/>
+      <BorrowedBooks />
     </div>
   )
 }

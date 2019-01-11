@@ -4,6 +4,15 @@ const initState = {
 
 const groupReducer = (state = initState, action) => {
   switch(action.type){
+    case 'GET_GROUPS':
+    console.log('inside groupReducer',{
+      ...state,
+      groups: action.groups
+    });
+      return {
+        ...state,
+        groups: action.groups
+      }
     case 'ADD_GROUP':
       return {
         ...state,
