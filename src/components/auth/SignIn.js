@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { signIn } from '../../store/actions/authActions'
 import { Redirect } from 'react-router-dom'
+import './SignIn.css'
 
 class SignIn extends Component {
 
@@ -26,28 +27,29 @@ class SignIn extends Component {
     if (auth.uid) return <Redirect to='/' />
 
     return (
-
-      <form onSubmit={this.onSubmit} >
-        <h2>Sign In</h2>
+      <div className="text-center">
+      <form onSubmit={this.onSubmit} className="form-signin" >
+        <h2 className="h3 mb-3 font-weight-normal">Sign In</h2>
 
         <section className="error-messages">
           { authError ? <p>Error: {authError}</p> : null}
         </section>
 
         <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" className="form-control" onChange={this.onChange}/>
+          <label htmlFor="email" className="sr-only">Email</label>
+          <input type="email" id="email" className="form-control" placeholder="Email Address" onChange={this.onChange}/>
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" className="form-control" onChange={this.onChange}/>
+          <label htmlFor="password" className="sr-only">Password</label>
+          <input type="password" id="password" className="form-control" placeholder="Password" onChange={this.onChange}/>
         </div>
 
 
-        <button className="btn btn-primary">Login</button>
+        <button className="btn btn-lg btn-primary btn-block">Login</button>
 
       </form>
+      </div>
 
     )
   }
