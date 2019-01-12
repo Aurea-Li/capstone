@@ -11,7 +11,7 @@ const Item = ({ item, removeItem }) => {
     <img src={img} alt={title} />
 
     <div>
-      <p>{ item.status ? item.status : null }</p>
+      <p>Status: { item.status ? item.status : null }</p>
       {removeItem ? <button onClick={() => removeItem(item)}> Remove </button> : null}
     </div>
 
