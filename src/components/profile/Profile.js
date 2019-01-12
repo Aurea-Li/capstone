@@ -22,7 +22,6 @@ class Profile extends Component {
     axios.get(URL)
     .then(response => {
 
-      console.log('profile',response.data);
       this.props.getBorrowedBooks(response.data);
     })
     .catch(error => {
@@ -50,7 +49,6 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('mapstate',state);
   return {
     auth: state.firebase.auth,
     books: state.firestore.ordered.books,

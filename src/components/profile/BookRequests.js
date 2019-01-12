@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Item from '../dashboard/Item'
+import Item from './Item'
 
 class BookRequests extends Component {
 

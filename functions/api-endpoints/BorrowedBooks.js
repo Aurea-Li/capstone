@@ -10,13 +10,39 @@ const borrowedBooks = (request, response) => {
   let books = [];
   db.collection('books').where("borrowerID", "==", uid).get().then(querySnapshot => {
 
-    console.log('inside query wheee');
     querySnapshot.forEach(query => {
-      console.log('inside foreach', query.data());
 
-      books.push(query.data());
+      books.push({
+        user: query.data().userID,
+        book: query.data()
+      });
+
+      const promises = [];
+
+      books.forEach(bookInfo => {
+        promises.push(
+          db.collection('users').doc(`${bookInfo.user}`).get()
+        );
+      })
+
+      Promise.all(promises).then(querySnapshot => {
+        let index = 0;
+        querySnapshot.forEach(query => {
+          const user = query.data();
+
+          books[index].user = `${user.firstName} ${user.lastName}`;
+          index++;
+
+        });
+
+        response.json(books);
+
+      })
+      .catch(error => {
+        response.status(500).send({ error: 'borrowedbooks api call failed' })
+      })
+
     })
-    response.json(books);
   })
   .catch(error => {
     response.status(500).send({ error: 'borrowedbooks api call failed' })

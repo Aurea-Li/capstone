@@ -9,10 +9,12 @@ const Item = ({ item, removeItem }) => {
     <h3>{title}</h3>
     <h4>{authors.join(', ')}</h4>
     <img src={img} alt={title} />
-    <p>{ item.status ? item.status : null }</p>
 
+    <div>
+      <p>{ item.status ? item.status : null }</p>
+      {removeItem ? <button onClick={() => removeItem(item)}> Remove </button> : null}
+    </div>
 
-    {removeItem ? <button onClick={() => removeItem(item)}> Remove </button> : null}
   </div>
   )
 }

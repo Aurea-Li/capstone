@@ -1,10 +1,10 @@
 import React from 'react'
-import Item from '../dashboard/Item'
+import BorrowedBook from './BorrowedBook'
 
 const BorrowedBooks = ({ books }) => {
 
   const bookList = books && books.map((book,i) => {
-    return (<Item key={i} item={book} />)
+    return (<BorrowedBook key={i} bookInfo={book} />)
   })
 
   return (
@@ -14,9 +14,5 @@ const BorrowedBooks = ({ books }) => {
     </div>
   )
 }
-
-
-
-
 
 export default BorrowedBooks
