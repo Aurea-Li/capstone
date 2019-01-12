@@ -10,9 +10,7 @@ const BorrowedBooks = ({ books }) => {
   return (
     <div>
     <h2>Borrowed Books</h2>
-    <ul>
       {bookList}
-    </ul>
     </div>
   )
 }
