@@ -15,7 +15,7 @@ const members = require('./api-endpoints/Members')
 const availableBooks = require('./api-endpoints/AvailableBooks')
 const groups = require('./api-endpoints/Groups')
 const bookRequests = require('./api-endpoints/BookRequests')
-const borrowedBooks = require('./api-endpoints/borrowedBooks')
+const borrowedBooks = require('./api-endpoints/BorrowedBooks')
 
 
 app.get('/members',members);

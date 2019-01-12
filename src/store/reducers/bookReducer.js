@@ -4,6 +4,11 @@ const initState = {
 
 const bookReducer = (state = initState, action) => {
   switch(action.type){
+    case 'GET_BORROWED_BOOKS':
+      return {
+        ...state,
+        borrowedBooks: action.borrowedBooks
+      }
     case 'ADD_BOOK':
       return {
         ...state,

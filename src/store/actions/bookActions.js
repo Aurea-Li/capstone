@@ -1,3 +1,8 @@
+export const getBorrowedBooks = borrowedBooks => ({
+  type: 'GET_BORROWED_BOOKS',
+  borrowedBooks
+})
+
 export const addBook = ({ title }) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
 

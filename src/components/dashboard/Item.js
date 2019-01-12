@@ -10,7 +10,9 @@ const Item = ({ item, removeItem }) => {
     <h4>{authors.join(', ')}</h4>
     <img src={img} alt={title} />
     <p>{ item.status ? item.status : null }</p>
-    <button onClick={() => removeItem(item)}> Remove </button>
+
+
+    {removeItem ? <button onClick={() => removeItem(item)}> Remove </button> : null}
   </div>
   )
 }
