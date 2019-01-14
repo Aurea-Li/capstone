@@ -38,7 +38,10 @@ class AvailableBooks extends Component {
     const bookList = books.map((bookInfo,i) => {
       return (
         <li key={i}>
-          <AvailableBook bookInfo={bookInfo} />
+          <AvailableBook
+            bookInfo={bookInfo}
+            requestExistingBook={() => this.props.requestExistingBook(bookInfo.book)}
+            />
         </li>
       )
     });

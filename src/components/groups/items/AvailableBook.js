@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AvailableBook = ({ bookInfo }) => {
+const AvailableBook = ({ bookInfo, requestExistingBook }) => {
 
   return (
     <div>
@@ -9,7 +9,7 @@ const AvailableBook = ({ bookInfo }) => {
 
       <p>Owned by: {bookInfo.user.firstName} {bookInfo.user.lastName}</p>
 
-      <button>Request Book</button>
+      <button onClick={requestExistingBook}>Request Book</button>
 
     </div>
   )

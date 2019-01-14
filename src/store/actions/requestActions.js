@@ -1,8 +1,15 @@
+export const getRequests = requests => ({
+  type: 'GET_REQUESTS',
+  requests
+})
+
+
 export const addRequest = ({ title }) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
 
     const firestore = getFirestore();
     const userID = getState().firebase.auth.uid;
+    ;
 
 
     const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&filter=ebooks`;
@@ -15,14 +22,12 @@ export const addRequest = ({ title }) => {
           title: results.title,
           authors: results.authors,
           img: results.imageLinks.smallThumbnail,
-          createdAt: new Date()
+          createdAt: new Date(),
+          userID
         }
 
-        firestore.collection('requests').add({
-          ...request,
-          userID
-        }).then(() => {
-          dispatch({ type: 'ADD_REQUEST' });
+        firestore.collection('requests').add(request).then(() => {
+          dispatch({ type: 'ADD_REQUEST', request });
         }).catch(error => {
           dispatch({ type: 'ADD_REQUEST_ERROR', error })
         })
@@ -40,9 +45,42 @@ export const removeRequest = (request) => {
 
     firestore.collection('requests').doc(request.id).delete()
     .then(() => {
-      dispatch({ type: 'REMOVE_REQUEST' });
+      dispatch({ type: 'REMOVE_REQUEST', request });
     }).catch(error => {
       dispatch({ type: 'REMOVE_REQUEST_ERROR', error })
+    })
+  }
+};
+
+export const requestExistingBook = (book) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+
+
+    const firestore = getFirestore();
+    const userID = getState().firebase.auth.uid;
+    const profile = getState().firebase.profile;
+
+
+    const { title, authors, img } = book;
+
+    const request = {
+      title,
+      authors,
+      img,
+      userID,
+      createdAt: new Date()
+    }
+
+    const requestInfo = {
+      request,
+      user: profile
+    }
+
+    firestore.collection('requests').add(request).then(() => {
+      dispatch({ type: 'ADD_REQUEST', requestInfo });
+    })
+    .catch(error => {
+      dispatch({ type: 'ADD_REQUEST_ERROR', error });
     })
   }
 };

@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import BookRequest from './items/BookRequest'
+import { getRequests } from '../../store/actions/requestActions'
 
 class BookRequests extends Component {
-
-  state = {
-    requests: []
-  }
 
   getBookRequests() {
 
@@ -15,7 +13,7 @@ class BookRequests extends Component {
 
     axios.get(URL)
     .then(response => {
-      this.setState({ requests: response.data  });
+      this.props.getRequests(response.data);
     })
     .catch(error => {
       console.log('Error in book requests', error.message);
@@ -34,8 +32,8 @@ class BookRequests extends Component {
   }
 
   render () {
-    const { requests } = this.state;
-    const requestList = requests.map((requestInfo,i) => {
+    const { requests } = this.props;
+    const requestList = requests && requests.map((requestInfo,i) => {
       return (
         <li key={i}>
           <BookRequest requestInfo={requestInfo} />
@@ -55,4 +53,16 @@ class BookRequests extends Component {
   }
 }
 
-export default BookRequests
+const mapStateToProps = (state) => {
+  return {
+    requests: state.request.requests
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getRequests: (groups) => dispatch(getRequests(groups)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookRequests)

@@ -4,6 +4,7 @@ import axios from 'axios'
 import AvailableBooks from './AvailableBooks'
 import BookRequests from './BookRequests'
 import { getMembers } from '../../store/actions/authActions'
+import { requestExistingBook } from '../../store/actions/requestActions'
 
 class GroupPage extends Component {
 
@@ -39,7 +40,7 @@ class GroupPage extends Component {
       return <li key={i}>{member.name}</li>
     })
 
-    const { group } = this.props;
+    const { group, requestExistingBook } = this.props;
     return (
       <div>
       <h3>{group.name}</h3>
@@ -58,7 +59,7 @@ class GroupPage extends Component {
       </section>
 
       <section>
-        <AvailableBooks groupID={group.id}/>
+        <AvailableBooks groupID={group.id} requestExistingBook={requestExistingBook}/>
       </section>
       </div>
     )
@@ -73,7 +74,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getMembers: (groups) => dispatch(getMembers(groups))
+    getMembers: (groups) => dispatch(getMembers(groups)),
+    requestExistingBook: (book) => dispatch(requestExistingBook(book))
   }
 }
 
