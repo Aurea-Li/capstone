@@ -99,6 +99,7 @@ export const fulfillRequest = (request) => {
       );
     })
 
+
     Promise.all(bookPromises).then(querySnapshot => {
 
       querySnapshot.forEach(query => {
@@ -109,30 +110,39 @@ export const fulfillRequest = (request) => {
           && book.authors.join('') === request.authors.join('')
           && book.status === 'Available'){
 
-            const promises = [
-              firestore.collection('books').doc(`${bookID}`).update({
-                borrowerID: request.userID,
-                borrowedDate: new Date(),
-                status: 'Unavailable'
-              }),
-              firestore.collection('requests').doc(`${request.id}`).delete()
-            ];
+            firestore.collection('users').doc(`${request.userID}`).get().then(query => {
 
-            Promise.all(promises).then(querySnapshot => {
+              const requestUser = query.data();
 
-              firestore.collection('books').doc(`${bookID}`).get().then((updatedBook) => {
+              const promises = [
+                firestore.collection('books').doc(`${bookID}`).update({
+                  borrowerID: request.userID,
+                  borrowedDate: new Date(),
+                  borrowerFirstName: requestUser.firstName,
+                  borrowerLastName: requestUser.lastName,
+                  status: 'Unavailable'
+                }),
+                firestore.collection('requests').doc(`${request.id}`).delete()
+              ];
 
-                const book = updatedBook.data();
-                book.id = updatedBook.id;
-                
-                dispatch({ type: 'REQUEST_FULFILLED', book })
-                dispatch({ type: 'REMOVE_REQUEST', request })
+              Promise.all(promises).then(querySnapshot => {
+
+                firestore.collection('books').doc(`${bookID}`).get().then((updatedBook) => {
+
+                  const book = updatedBook.data();
+                  book.id = updatedBook.id;
+
+                  dispatch({ type: 'REQUEST_FULFILLED', book })
+                  dispatch({ type: 'REMOVE_REQUEST', request })
+                })
+
+              })
+              .catch(error => {
+                dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
               })
 
             })
-            .catch(error => {
-              dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
-            })
+
           } else {
 
             const error = {

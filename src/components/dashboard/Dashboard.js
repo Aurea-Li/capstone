@@ -17,9 +17,9 @@ class Dashboard extends Component {
     const { uid } = this.props.auth;
 
     const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/groups?uid=${uid}`;
-
     axios.get(URL)
     .then(response => {
+
 
       this.props.getGroups(response.data);
 

@@ -50,6 +50,7 @@ const bookReducer = (state = initState, action) => {
           ...state.books.slice(index + 1)
         ]
       }
+
     default:
       return state
   }

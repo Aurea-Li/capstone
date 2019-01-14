@@ -31,6 +31,7 @@ class Profile extends Component {
 
   render() {
     const { auth, books, requests, addBook, removeBook, addRequest, removeRequest, borrowedBooks } = this.props;
+
     if (!auth.uid) return <Redirect to='/frontpage' />
     return (
       <div>
