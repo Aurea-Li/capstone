@@ -59,7 +59,7 @@ class GroupPage extends Component {
       </section>
 
       <section>
-        <AvailableBooks groupID={group.id} requestExistingBook={requestExistingBook}/>
+        <AvailableBooks groupID={group.id} />
       </section>
       </div>
     )
@@ -74,8 +74,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getMembers: (groups) => dispatch(getMembers(groups)),
-    requestExistingBook: (book) => dispatch(requestExistingBook(book))
+    getMembers: (groups) => dispatch(getMembers(groups))
   }
 }
 

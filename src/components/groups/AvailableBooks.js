@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import AvailableBook from './items/AvailableBook'
+import { getBooks } from '../../store/actions/bookActions'
+import { requestExistingBook } from '../../store/actions/requestActions'
 
 class AvailableBooks extends Component {
-
-  state = {
-    books: []
-  }
 
   getAvailableBooks() {
 
@@ -15,7 +14,7 @@ class AvailableBooks extends Component {
 
     axios.get(URL)
     .then(response => {
-      this.setState({ books: response.data  });
+      this.props.getBooks(response.data);
     })
     .catch(error => {
       console.log('Error in available books', error.message);
@@ -34,8 +33,8 @@ class AvailableBooks extends Component {
   }
 
   render () {
-    const { books } = this.state;
-    const bookList = books.map((bookInfo,i) => {
+    const { books } = this.props;
+    const bookList = books && books.map((bookInfo,i) => {
       return (
         <li key={i}>
           <AvailableBook
@@ -45,7 +44,6 @@ class AvailableBooks extends Component {
         </li>
       )
     });
-
 
     return (
       <div>
@@ -58,4 +56,17 @@ class AvailableBooks extends Component {
   }
 }
 
-export default AvailableBooks
+const mapStateToProps = (state) => {
+  return {
+    books: state.book.books
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getBooks: (books) => dispatch(getBooks(books)),
+    requestExistingBook: (book) => dispatch(requestExistingBook(book))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AvailableBooks)
