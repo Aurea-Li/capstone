@@ -22,6 +22,7 @@ class Profile extends Component {
     axios.get(URL)
     .then(response => {
 
+      console.log(response.data);
       this.props.getBorrowedBooks(response.data);
     })
     .catch(error => {

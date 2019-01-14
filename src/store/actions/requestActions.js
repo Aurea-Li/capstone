@@ -14,7 +14,8 @@ export const addRequest = ({ title }) => {
         const request = {
           title: results.title,
           authors: results.authors,
-          img: results.imageLinks.smallThumbnail
+          img: results.imageLinks.smallThumbnail,
+          createdAt: new Date()
         }
 
         firestore.collection('requests').add({

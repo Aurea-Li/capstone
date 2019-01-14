@@ -7,6 +7,7 @@ import Profile from './components/profile/Profile'
 import CreateGroup from './components/groups/CreateGroup'
 import JoinGroup from './components/groups/JoinGroup'
 import FrontPage from './components/auth/FrontPage'
+import './App.css'
 
 class App extends Component {
 
