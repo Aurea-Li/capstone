@@ -33,11 +33,21 @@ const requestReducer = (state = initState, action) => {
         ...state,
         requests: [
           ...state.requests.slice(0, index),
-          ...state.groups.slice(index + 1)
+          ...state.requests.slice(index + 1)
         ],
         requestError: null
       }
     case 'REMOVE_REQUEST_ERROR':
+      return {
+        ...state,
+        requestError: action.error.message
+      }
+    case 'REQUEST_FULFILLED':
+      return {
+        ...state,
+        requestError: null
+      }
+    case 'REQUEST_FULFILLED_ERROR':
       return {
         ...state,
         requestError: action.error.message

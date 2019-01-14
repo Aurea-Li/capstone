@@ -50,6 +50,8 @@ const availableBooks = (request, response) => {
 
           if (book.status === 'Available'){
 
+            book.id = bookQuery.id;
+
             allBookInfo[index].book = book;
             bookInfo.push(allBookInfo[index]);
           }

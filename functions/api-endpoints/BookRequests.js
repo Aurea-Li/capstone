@@ -48,7 +48,10 @@ const bookRequests = (request, response) => {
         requestquerySnapshot.forEach(requestQuery => {
           const request = requestQuery.data();
 
+          request.id = requestQuery.id;
+
           requestInfo[index].request = request;
+
           index++;
         })
 

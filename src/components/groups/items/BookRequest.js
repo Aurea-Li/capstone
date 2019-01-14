@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 
-const BookRequest = ({ requestInfo }) => {
+const BookRequest = ({ requestInfo, fulfillRequest }) => {
 
   const createdAt = new Date(requestInfo.request.createdAt);
 
@@ -14,7 +14,7 @@ const BookRequest = ({ requestInfo }) => {
 
       <p>{moment(createdAt).calendar()}</p>
 
-      <button>Fulfill Request</button>
+      <button onClick={fulfillRequest}>Fulfill Request</button>
 
     </div>
   )

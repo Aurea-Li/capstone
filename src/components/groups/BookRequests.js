@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import BookRequest from './items/BookRequest'
-import { getRequests } from '../../store/actions/requestActions'
+import { getRequests, fulfillRequest } from '../../store/actions/requestActions'
 
 class BookRequests extends Component {
 
@@ -32,11 +32,12 @@ class BookRequests extends Component {
   }
 
   render () {
-    const { requests } = this.props;
+    const { requests, fulfillRequest } = this.props;
     const requestList = requests && requests.map((requestInfo,i) => {
       return (
         <li key={i}>
-          <BookRequest requestInfo={requestInfo} />
+          <BookRequest requestInfo={requestInfo}
+            fulfillRequest={() => fulfillRequest(requestInfo.request)}/>
         </li>
       )
     });
@@ -62,6 +63,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getRequests: (groups) => dispatch(getRequests(groups)),
+    fulfillRequest: (request) => dispatch(fulfillRequest(request))
   }
 }
 

@@ -84,3 +84,66 @@ export const requestExistingBook = (book) => {
     })
   }
 };
+
+export const fulfillRequest = (request) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+
+    const firestore = getFirestore();
+    const profile = getState().firebase.profile;
+
+
+    const bookPromises = [];
+    profile.books.forEach(bookID => {
+      bookPromises.push(
+        firestore.collection('books').doc(`${bookID}`).get()
+      );
+    })
+
+    Promise.all(bookPromises).then(querySnapshot => {
+
+      querySnapshot.forEach(query => {
+        const book = query.data();
+        const bookID = query.id;
+
+        if (book.title === request.title
+          && book.authors.join('') === request.authors.join('')
+          && book.status === 'Available'){
+
+            const promises = [
+              firestore.collection('books').doc(`${bookID}`).update({
+                borrowerID: request.userID,
+                borrowedDate: new Date(),
+                status: 'Unavailable'
+              }),
+              firestore.collection('requests').doc(`${request.id}`).delete()
+            ];
+
+            Promise.all(promises).then(querySnapshot => {
+
+              firestore.collection('books').doc(`${bookID}`).get().then((updatedBook) => {
+
+                const book = updatedBook.data();
+                book.id = updatedBook.id;
+                
+                dispatch({ type: 'REQUEST_FULFILLED', book })
+                dispatch({ type: 'REMOVE_REQUEST', request })
+              })
+
+            })
+            .catch(error => {
+              dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
+            })
+          } else {
+
+            const error = {
+              message: 'Book not available in library'
+            }
+            dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
+          }
+      })
+    })
+    .catch(error => {
+      dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
+    })
+  }
+}

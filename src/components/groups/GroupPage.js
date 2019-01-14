@@ -4,7 +4,6 @@ import axios from 'axios'
 import AvailableBooks from './AvailableBooks'
 import BookRequests from './BookRequests'
 import { getMembers } from '../../store/actions/authActions'
-import { requestExistingBook } from '../../store/actions/requestActions'
 
 class GroupPage extends Component {
 
@@ -40,7 +39,7 @@ class GroupPage extends Component {
       return <li key={i}>{member.name}</li>
     })
 
-    const { group, requestExistingBook } = this.props;
+    const { group } = this.props;
     return (
       <div>
       <h3>{group.name}</h3>

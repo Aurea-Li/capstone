@@ -33,6 +33,7 @@ class AvailableBooks extends Component {
   }
 
   render () {
+    console.log('books is', this.props.books);
     const { books } = this.props;
     const bookList = books && books.map((bookInfo,i) => {
       return (
