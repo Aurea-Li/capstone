@@ -17,7 +17,9 @@ const borrowedBooks = (request, response) => {
         book: query.data()
       });
 
+    })
       const promises = [];
+
 
       books.forEach(bookInfo => {
         promises.push(
@@ -42,7 +44,6 @@ const borrowedBooks = (request, response) => {
         response.status(500).send({ error: 'borrowedbooks api call failed' })
       })
 
-    })
   })
   .catch(error => {
     response.status(500).send({ error: 'borrowedbooks api call failed' })
