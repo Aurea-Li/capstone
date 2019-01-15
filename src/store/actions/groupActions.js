@@ -101,17 +101,23 @@ export const joinGroup = (group) => {
       }
       else {
 
-        firestore.collection('usergroups').doc(`${uid}`).update({
-          [`${group.id}`]: true
-        });
+        const promises = [
+          firestore.collection('usergroups').doc(`${uid}`).update({
+            [`${group.id}`]: true
+          }),
+          firestore.collection('groupusers').doc(`${group.id}`).update({
+            [`${uid}`]: true
+          })
+        ]
 
-        firestore.collection('groupusers').doc(`${group.id}`).update({
-          [`${uid}`]: true
-        });
-
-        dispatch({ type: 'JOIN_GROUP',
-                   group
-                 });
+        Promise.all(promises).then(() => {
+            dispatch({ type: 'JOIN_GROUP',
+            group
+          });
+        })
+        .catch(error => {
+          dispatch({ type: 'JOIN_GROUP_ERROR', error });
+        })
 
       }
     })

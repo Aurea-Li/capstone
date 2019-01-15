@@ -14,6 +14,7 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
+    console.log('component mounting');
     const { uid } = this.props.auth;
 
     const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/groups?uid=${uid}`;
@@ -24,6 +25,7 @@ class Dashboard extends Component {
       this.props.getGroups(response.data);
 
       this.setState({ activeGroup: response.data[0] });
+      console.log('groups gotten');
 
     })
     .catch(error => {
@@ -34,7 +36,6 @@ class Dashboard extends Component {
   componentDidUpdate(prevProps) {
 
     if (prevProps.groups !== this.props.groups){
-
       this.setState({
         activeGroup: this.props.groups[0]
       });
@@ -56,6 +57,8 @@ class Dashboard extends Component {
 
     const { activeGroup } = this.state;
     const { auth, groups } = this.props;
+
+    console.log('groups is', groups);
 
 
     if (!auth.uid) { return <Redirect to='/frontpage' /> }

@@ -6,8 +6,15 @@ import { Redirect } from 'react-router-dom'
 import { joinGroup } from '../../store/actions/groupActions'
 import Navbar from '../layout/Navbar'
 
-const  JoinGroup = ({ auth, groups, joinGroup, groupError }) => {
+const  JoinGroup = (props) => {
 
+
+  const joinGroup = (group) => {
+    props.joinGroup(group);
+    props.history.push('/');
+  }
+
+  const { auth, groups } = props;
 
   if (!auth.uid) return <Redirect to='/frontpage' />
 
@@ -18,9 +25,6 @@ const  JoinGroup = ({ auth, groups, joinGroup, groupError }) => {
   return (
     <div>
       <Navbar />
-      <section>
-      { groupError ? groupError : null}
-      </section>
       <h2>Available Groups</h2>
       <ul>
         {groupList}
@@ -33,8 +37,7 @@ const  JoinGroup = ({ auth, groups, joinGroup, groupError }) => {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    groups: state.firestore.ordered.groups,
-    groupError: state.group.groupError
+    groups: state.firestore.ordered.groups
   }
 }
 
