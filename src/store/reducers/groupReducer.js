@@ -15,19 +15,11 @@ const groupReducer = (state = initState, action) => {
         groups: [...state.groups, action.group]
       }
     case 'ADD_GROUP_ERROR':
-      return {
-        ...state,
-        groupError: action.error.message
-      }
+      return state;
     case 'JOIN_GROUP':
       return {
         ...state,
         groups: [...state.groups, action.group]
-      }
-    case 'JOIN_GROUP_ERROR':
-      return {
-        ...state,
-        groupError: action.error.message
       }
       case 'LEAVE_GROUP':
 
@@ -44,12 +36,6 @@ const groupReducer = (state = initState, action) => {
             ...state.groups.slice(0, index),
             ...state.groups.slice(index + 1)
           ]
-        }
-
-      case 'LEAVE_GROUP_ERROR':
-        return {
-          ...state,
-          groupError: action.error.message
         }
     default:
       return state

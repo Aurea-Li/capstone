@@ -12,13 +12,7 @@ const requestReducer = (state = initState, action) => {
     case 'ADD_REQUEST':
       return {
         ...state,
-        requests: [...state.requests, action.requestInfo],
-        requestError: null
-      }
-    case 'ADD_REQUEST_ERROR':
-      return {
-        ...state,
-        requestError: action.error.message
+        requests: [...state.requests, action.requestInfo]
       }
     case 'REMOVE_REQUEST':
 
@@ -34,24 +28,10 @@ const requestReducer = (state = initState, action) => {
         requests: [
           ...state.requests.slice(0, index),
           ...state.requests.slice(index + 1)
-        ],
-        requestError: null
-      }
-    case 'REMOVE_REQUEST_ERROR':
-      return {
-        ...state,
-        requestError: action.error.message
+        ]
       }
     case 'REQUEST_FULFILLED':
-      return {
-        ...state,
-        requestError: null
-      }
-    case 'REQUEST_FULFILLED_ERROR':
-      return {
-        ...state,
-        requestError: action.error.message
-      }
+      return state;
     default:
       return state
   }

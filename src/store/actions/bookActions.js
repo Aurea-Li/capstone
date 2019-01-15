@@ -39,11 +39,11 @@ export const addBook = ({ title }) => {
         }).then(() => {
           dispatch({ type: 'ADD_BOOK' });
         }).catch(error => {
-          dispatch({ type: 'ADD_BOOK_ERROR', error })
+          dispatch({ type: 'BOOK_ERROR', error })
         })
       })
     }).catch(error => {
-      dispatch({ type: 'ADD_BOOK_ERROR', error })
+      dispatch({ type: 'BOOK_ERROR', error })
     });
   }
 };
@@ -57,7 +57,7 @@ export const removeBook = (book) => {
     .then(() => {
       dispatch({ type: 'REMOVE_BOOK', book });
     }).catch(error => {
-      dispatch({ type: 'REMOVE_BOOK_ERROR', error })
+      dispatch({ type: 'BOOK_ERROR', error })
     })
   }
 };
@@ -75,7 +75,7 @@ export const returnBook = (book) => {
     }).then(() => {
       dispatch({ type: 'RETURN_BOOK', book })
     }).catch(error => {
-      dispatch({ type: 'RETURN_BOOK_ERROR', error })
+      dispatch({ type: 'BOOK_ERROR', error })
     })
   }
 }

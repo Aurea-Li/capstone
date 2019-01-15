@@ -1,8 +1,4 @@
-const initState = {
-  bookError: null
-}
-
-const bookReducer = (state = initState, action) => {
+const bookReducer = (state = {}, action) => {
   switch(action.type){
     case 'GET_BOOKS':
       return {
@@ -15,25 +11,9 @@ const bookReducer = (state = initState, action) => {
         borrowedBooks: action.borrowedBooks
       }
     case 'ADD_BOOK':
-      return {
-        ...state,
-        bookError: null
-      }
-    case 'ADD_BOOK_ERROR':
-      return {
-        ...state,
-        bookError: action.error.message
-      }
+      return state;
     case 'REMOVE_BOOK':
-      return {
-        ...state,
-        bookError: null
-      }
-    case 'REMOVE_BOOK_ERROR':
-      return {
-        ...state,
-        bookError: action.error.message
-      }
+      return state;
     case 'REQUEST_FULFILLED':
 
       let index = 0;
@@ -51,24 +31,7 @@ const bookReducer = (state = initState, action) => {
         ]
       }
     case 'RETURN_BOOK':
-      // const updatedBooks = state.books.map(book => {
-      //
-      //   if (book.id === action.book.id){
-      //     return action.book;
-      //   }
-      //
-      //   return book;
-      // })
-
-      return {
-        ...state,
-        bookError: null
-      }
-    case 'RETURN_BOOK_ERROR':
-      return {
-        ...state,
-        bookError: action.error.message
-      }
+      return state;
     default:
       return state
   }
