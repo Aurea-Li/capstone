@@ -17,17 +17,23 @@ class Library extends Component {
     this.setState({
       [e.target.id]: e.target.value
     });
+    if (title){
 
-    const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
-    const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&filter=ebooks&key=${KEY}`;
+      const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
+      const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&filter=ebooks&key=${KEY}`;
 
-    axios.get(URL)
+      axios.get(URL)
       .then(response => {
 
         this.setState({
           results: response.data.items.slice(0, 5)
         })
       })
+    } else {
+      this.setState({
+        results: []
+      });
+    }
   }
 
   render () {
