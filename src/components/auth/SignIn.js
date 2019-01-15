@@ -27,7 +27,7 @@ class SignIn extends Component {
     if (auth.uid) return <Redirect to='/' />
 
     return (
-      <div className="text-center">
+      <div className="sign-in">
       <form onSubmit={this.onSubmit} className="form-signin" >
         <h2 className="h3 mb-3 font-weight-normal">Sign In</h2>
 
