@@ -50,7 +50,25 @@ const bookReducer = (state = initState, action) => {
           ...state.books.slice(index + 1)
         ]
       }
+    case 'RETURN_BOOK':
+      // const updatedBooks = state.books.map(book => {
+      //
+      //   if (book.id === action.book.id){
+      //     return action.book;
+      //   }
+      //
+      //   return book;
+      // })
 
+      return {
+        ...state,
+        bookError: null
+      }
+    case 'RETURN_BOOK_ERROR':
+      return {
+        ...state,
+        bookError: action.error.message
+      }
     default:
       return state
   }

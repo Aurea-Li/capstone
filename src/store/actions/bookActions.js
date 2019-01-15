@@ -21,7 +21,7 @@ export const addBook = ({ title }) => {
     .then((response) => { response.json().then((response) => {
 
         const results = response.items[0].volumeInfo;
-        console.log(results);
+
         const book = {
           title: results.title,
           authors: results.authors,
@@ -61,3 +61,21 @@ export const removeBook = (book) => {
     })
   }
 };
+
+export const returnBook = (book) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+
+    firestore.collection('books').doc(book.id).update({
+      status: 'Available',
+      borrowerID: null,
+      borrowedDate: null,
+      borrowerFirstName: null,
+      borrowerLastName: null
+    }).then(() => {
+      dispatch({ type: 'RETURN_BOOK', book })
+    }).catch(error => {
+      dispatch({ type: 'RETURN_BOOK_ERROR', error })
+    })
+  }
+}

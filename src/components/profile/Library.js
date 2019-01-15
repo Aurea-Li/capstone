@@ -24,10 +24,12 @@ class Library extends Component {
 
   render () {
 
-    const { books, removeBook } = this.props;
+    const { books, removeBook, returnBook } = this.props;
 
     const bookList = books && books.map((book, i) => {
-      return (<Item key={i} item={book} removeItem={removeBook} />)
+      return (<Item key={i} item={book}
+              removeItem={removeBook}
+              returnBook={() => returnBook(book)} />)
     });
 
     return (

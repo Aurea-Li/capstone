@@ -8,7 +8,7 @@ import Navbar from '../layout/Navbar'
 import Library from './Library'
 import BookRequests from './BookRequests'
 import BorrowedBooks from './BorrowedBooks'
-import { addBook, removeBook, getBorrowedBooks } from '../../store/actions/bookActions'
+import { addBook, removeBook, getBorrowedBooks, returnBook } from '../../store/actions/bookActions'
 import {addRequest, removeRequest } from '../../store/actions/requestActions'
 
 
@@ -30,14 +30,14 @@ class Profile extends Component {
 
 
   render() {
-    const { auth, books, requests, addBook, removeBook, addRequest, removeRequest, borrowedBooks } = this.props;
+    const { auth, books, requests, addBook, removeBook, addRequest, removeRequest, borrowedBooks, returnBook } = this.props;
 
 
     if (!auth.uid) return <Redirect to='/frontpage' />
     return (
       <div>
         <Navbar />
-        <Library books={books} addBook={addBook} removeBook={removeBook} />
+        <Library books={books} addBook={addBook} removeBook={removeBook} returnBook={returnBook} />
 
         <BookRequests requests={requests}
           addRequest={addRequest}
@@ -62,6 +62,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addBook: (book) => dispatch(addBook(book)),
     removeBook: (book) => dispatch(removeBook(book)),
+    returnBook: (book) => dispatch(returnBook(book)),
     getBorrowedBooks: (books) => dispatch(getBorrowedBooks(books)),
     addRequest: (request) => dispatch(addRequest(request)),
     removeRequest: (request) => dispatch(removeRequest(request))

@@ -1,17 +1,18 @@
 import React from 'react'
 import moment from 'moment'
 
-const Item = ({ item, removeItem }) => {
+const Item = ({ item, removeItem, returnBook }) => {
 
   const { title, authors, img } = item;
 
 
   const status = item.status ? <p>Status: {item.status}</p> : null;
 
-  let borrowerInfo;
+  let borrowerInfo, returnBookButton;
   if (item.borrowerID){
 
-    borrowerInfo = item.borrowerID ? <p>Borrowed by: {item.borrowerFirstName} {item.borrowerLastName} on {moment(new Date(item.borrowedDate.seconds * 1000)).calendar()}</p> : null;
+    borrowerInfo = <p>Borrowed by: {item.borrowerFirstName} {item.borrowerLastName} on {moment(new Date(item.borrowedDate.seconds * 1000)).calendar()}</p>;
+    returnBookButton = <button onClick={returnBook}>Book Returned</button>
   }
 
 
@@ -24,7 +25,8 @@ const Item = ({ item, removeItem }) => {
     <div>
     {status}
     {borrowerInfo}
-      {removeItem ? <button onClick={() => removeItem(item)}> Remove </button> : null}
+      <button onClick={() => removeItem(item)}> Remove </button>
+      {returnBookButton}
     </div>
 
   </div>
