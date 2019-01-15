@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
+import moment from 'moment'
 import AvailableBooks from './AvailableBooks'
 import BookRequests from './BookRequests'
 import { getMembers } from '../../store/actions/authActions'
@@ -41,14 +42,14 @@ class GroupPage extends Component {
 
     const { group } = this.props;
     return (
-      <div>
+      <div className="group-page">
       <h3>{group.name}</h3>
 
       <button onClick={this.props.leaveGroup}>Leave Group</button>
 
       <section>
       <h4>Members</h4>
-      <ul>
+      <ul className="member-list">
         {memberList}
       </ul>
       </section>

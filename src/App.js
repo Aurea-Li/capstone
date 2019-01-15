@@ -21,7 +21,7 @@ class App extends Component {
 
     return (
 
-      <section className="error-message container">
+      <section className="error-message">
         <b>{errorMessage.message}</b>
       </section>
     );

@@ -15,18 +15,14 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-    console.log('component mounting');
     const { uid } = this.props.auth;
 
     const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/groups?uid=${uid}`;
     axios.get(URL)
     .then(response => {
 
-
       this.props.getGroups(response.data);
-
       this.setState({ activeGroup: response.data[0] });
-      console.log('groups gotten');
 
     })
     .catch(error => {

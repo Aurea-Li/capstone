@@ -30,3 +30,7 @@ body{
   border-radius: 2rem;
 
 }
+
+.error-message {
+  color: red;
+}

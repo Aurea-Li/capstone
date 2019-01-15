@@ -1,25 +1,33 @@
 import React, { Component } from 'react'
 import Item from './Item'
+import Results from './Results'
+import axios from 'axios'
 
 class Library extends Component {
 
   state = {
-    title: ''
+    title: '',
+    results: []
   }
 
   onChange = (e) => {
+
+    const title = e.target.value;
+
     this.setState({
       [e.target.id]: e.target.value
     });
-  }
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    this.props.addBook(this.state);
+    const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
+    const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&filter=ebooks&key=${KEY}`;
 
-    this.setState({
-      title: ''
-    })
+    axios.get(URL)
+      .then(response => {
+
+        this.setState({
+          results: response.data.items.slice(0, 5)
+        })
+      })
   }
 
   render () {
@@ -37,10 +45,12 @@ class Library extends Component {
         <h2>Library</h2>
 
 
-          <form onSubmit={this.onSubmit}>
+          <form>
           <input type="search" className="form-control" id="title"
             onChange={this.onChange} value={this.state.title} placeholder="Add Book Title..."/>
           </form>
+
+          <Results results={this.state.results} addBook={(book) => this.props.addBook(book)} />
 
         <section className="book-list">
           { bookList }
