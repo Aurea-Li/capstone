@@ -10,6 +10,7 @@ import BookRequests from './BookRequests'
 import BorrowedBooks from './BorrowedBooks'
 import { addBook, removeBook, getBorrowedBooks, returnBook } from '../../store/actions/bookActions'
 import {addRequest, removeRequest } from '../../store/actions/requestActions'
+import './Profile.css'
 
 
 class Profile extends Component {
@@ -35,7 +36,7 @@ class Profile extends Component {
 
     if (!auth.uid) return <Redirect to='/frontpage' />
     return (
-      <div>
+      <div className="profile">
         <Navbar />
         <Library books={books} addBook={addBook} removeBook={removeBook} returnBook={returnBook} />
 

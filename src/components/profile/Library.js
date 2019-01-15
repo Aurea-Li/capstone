@@ -33,7 +33,7 @@ class Library extends Component {
     });
 
     return (
-      <section>
+      <section className="library">
         <h2>Library</h2>
 
 

@@ -2,15 +2,16 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signOut } from '../../store/actions/authActions'
+import './Navbar.css'
 
 const Navbar = (props) => {
   return (
-    <ul>
-      <li><NavLink to='/'>Dashboard</NavLink></li>
+    <ul className="navbar">
+      <li><NavLink to='/'>DASHBOARD</NavLink></li>
+      <li><NavLink to='/profile'>PROFILE</NavLink></li>
       <li>
-        <a onClick={props.signOut}> Log Out </a>
+        <a onClick={props.signOut}> LOG OUT </a>
       </li>
-      <li><NavLink to='/profile'>Profile</NavLink></li>
     </ul>
   )
 }

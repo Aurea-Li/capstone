@@ -31,7 +31,7 @@ class BookRequests extends Component {
     });
 
     return (
-      <section>
+      <section className="book-requests">
         <h2>Book Requests</h2>
 
 

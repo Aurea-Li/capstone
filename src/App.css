@@ -1,0 +1,32 @@
+
+
+$primary-font: 'Gudea', sans-serif;
+$blueberry: #6B7A8F;
+$apricot: #F7882F;
+$citrus: #F7C331;
+$apple-core: #DCC7AA;
+$off-white: #EAE7DC
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body{
+    max-width: 100%;
+    background-color: #EAE7DC;
+    font-family: 'PT Sans', sans-serif;
+}
+
+.header{
+    float: left;
+    text-align: center;
+    min-width: 100%;
+    width: 100%;
+    color: #6B7A8F;
+}
+
+.btn {
+  border-radius: 2rem;
+
+}

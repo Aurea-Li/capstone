@@ -6,7 +6,7 @@ const BorrowedBook = ({ bookInfo }) => {
   const { title, authors, img } = book;
 
   return (
-    <div className="container">
+    <div>
     <h3>{title}</h3>
     <h4>{authors.join(', ')}</h4>
     <img src={img} alt={title} />

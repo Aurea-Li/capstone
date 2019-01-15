@@ -6,6 +6,7 @@ import GroupLinks from '../groups/GroupLinks'
 import GroupPage from '../groups/GroupPage'
 import axios from 'axios'
 import { leaveGroup, getGroups } from '../../store/actions/groupActions'
+import './Dashboard.css'
 
 class Dashboard extends Component {
 
@@ -58,9 +59,6 @@ class Dashboard extends Component {
     const { activeGroup } = this.state;
     const { auth, groups } = this.props;
 
-    console.log('groups is', groups);
-
-
     if (!auth.uid) { return <Redirect to='/frontpage' /> }
 
     if (!activeGroup){
@@ -72,12 +70,13 @@ class Dashboard extends Component {
     } else {
 
       return (
-        <div>
+        <div className="dashboard">
           <Navbar />
-          This is the Dashboard.
           <GroupLinks
             groups={groups}
             selectGroup={(group) => this.selectGroup(group)} />
+
+
             { activeGroup ? <GroupPage
               group={activeGroup}
               leaveGroup={() => this.leaveGroup(activeGroup)} /> : null }

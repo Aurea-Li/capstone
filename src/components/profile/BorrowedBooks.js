@@ -8,10 +8,10 @@ const BorrowedBooks = ({ books }) => {
   })
 
   return (
-    <div>
+    <section className="borrowed-books">
     <h2>Borrowed Books</h2>
       {bookList}
-    </div>
+    </section>
   )
 }
 

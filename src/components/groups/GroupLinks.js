@@ -8,7 +8,7 @@ const GroupLinks = ({ groups, selectGroup }) => {
   });
 
   return (
-    <div>
+    <div className="group-links">
     <h3>Group Links</h3>
 
     <section>

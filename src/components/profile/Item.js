@@ -12,12 +12,12 @@ const Item = ({ item, removeItem, returnBook }) => {
   if (item.borrowerID){
 
     borrowerInfo = <p>Borrowed by: {item.borrowerFirstName} {item.borrowerLastName} on {moment(new Date(item.borrowedDate.seconds * 1000)).calendar()}</p>;
-    returnBookButton = <button onClick={returnBook}>Book Returned</button>
+    returnBookButton = <button className="btn btn-primary" onClick={returnBook}>Book Returned</button>
   }
 
 
   return (
-    <div className="container">
+    <div className="item">
     <h3>{title}</h3>
     <h4>{authors.join(', ')}</h4>
     <img src={img} alt={title} />
@@ -25,7 +25,7 @@ const Item = ({ item, removeItem, returnBook }) => {
     <div>
     {status}
     {borrowerInfo}
-      <button onClick={() => removeItem(item)}> Remove </button>
+      <button className="btn btn-primary" onClick={() => removeItem(item)}> Remove </button>
       {returnBookButton}
     </div>
 
