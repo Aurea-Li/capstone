@@ -11,8 +11,6 @@
   padding: 2%;
 }
 
-
-
 .book-requests {
   grid-column: 2 / 3;
   padding: 2%;
@@ -43,6 +41,8 @@
 
 .results {
   background-color: white;
+  overflow: hidden;
+  position: absolute;
 }
 
 .results ul {
