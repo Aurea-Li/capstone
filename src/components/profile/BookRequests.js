@@ -48,9 +48,16 @@ class BookRequests extends Component {
 
     const { requests, removeRequest } = this.props;
 
-    const requestList = requests && requests.map((request, i) => {
-      return (<Item key={i} item={request} removeItem={removeRequest} />)
-    });
+    let requestList;
+
+    if (requests !== undefined && requests.length === 0){
+      requestList = <p className="empty-inventory">No Requests Made.</p>;
+    } else {
+      requestList = requests && requests.map((request, i) => {
+        return (<Item key={i} item={request} removeItem={removeRequest} />)
+      });
+    }
+
 
     return (
       <section className="book-requests">

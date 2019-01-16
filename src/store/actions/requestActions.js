@@ -93,6 +93,7 @@ export const fulfillRequest = (request) => {
 
     Promise.all(bookPromises).then(querySnapshot => {
 
+      let foundBook = false;
       querySnapshot.forEach(query => {
         const book = query.data();
         const bookID = query.id;
@@ -101,6 +102,7 @@ export const fulfillRequest = (request) => {
           && book.authors.join('') === request.authors.join('')
           && book.status === 'Available'){
 
+            foundBook = true;
             firestore.collection('users').doc(`${request.userID}`).get().then(query => {
 
               const requestUser = query.data();
@@ -133,15 +135,15 @@ export const fulfillRequest = (request) => {
               })
 
             })
+          }
+        })
 
-          } else {
-
+          if (!foundBook){
             const error = {
               message: 'Book not available in library'
             }
             dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
           }
-      })
     })
     .catch(error => {
       dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })

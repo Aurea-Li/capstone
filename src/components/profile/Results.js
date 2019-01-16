@@ -6,7 +6,7 @@ const Results = ({ results, addItem }) => {
     const result = resultInfo.volumeInfo;
     return (
       <li key={i} onClick={() => addItem(result)}>
-        {result.title}
+        <p>{result.title}</p>
         <img src={result.imageLinks.smallThumbnail} alt={result.title} />
         <p>{result.authors ? result.authors.join(' ') : null}</p>
       </li>

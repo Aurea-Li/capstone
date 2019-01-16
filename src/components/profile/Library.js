@@ -48,11 +48,20 @@ class Library extends Component {
 
     const { books, removeBook, returnBook } = this.props;
 
-    const bookList = books && books.map((book, i) => {
-      return (<Item key={i} item={book}
-              removeItem={removeBook}
-              returnBook={() => returnBook(book)} />)
-    });
+
+    let bookList;
+
+    if (books !== undefined && books.length === 0){
+      bookList = <p className="empty-inventory">No Books in Library.</p>
+    } else {
+
+      bookList = books && books.map((book, i) => {
+        return (<Item key={i} item={book}
+          removeItem={removeBook}
+          returnBook={() => returnBook(book)} />)
+        });
+    }
+
 
     return (
       <section className="library">

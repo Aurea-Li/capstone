@@ -43,8 +43,10 @@ const availableBooks = (request, response) => {
 
       Promise.all(bookPromises).then(bookquerySnapshot => {
 
+
         let index = 0;
         let bookInfo = [];
+
         bookquerySnapshot.forEach(bookQuery => {
           const book = bookQuery.data();
 
