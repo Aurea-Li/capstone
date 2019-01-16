@@ -52,7 +52,7 @@ class Library extends Component {
 
 
           <form>
-          <input type="search" className="form-control" id="title"
+          <input type="search" autoComplete="off" className="form-control" id="title"
             onChange={this.onChange} value={this.state.title} placeholder="Add Book Title..."/>
           </form>
 
