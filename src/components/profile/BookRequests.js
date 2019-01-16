@@ -1,25 +1,47 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import Item from './Item'
+import Results from './Results'
 
 class BookRequests extends Component {
 
   state = {
-    title: ''
+    title: '',
+    results: []
   }
 
-  onChange = (e) => {
+  addRequest = (request) => {
+    this.props.addRequest(request);
     this.setState({
-      [e.target.id]: e.target.value
+      title: '',
+      results: []
     });
   }
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    this.props.addRequest(this.state);
+  onChange = (e) => {
+
+    const title = e.target.value;
 
     this.setState({
-      title: ''
-    })
+      [e.target.id]: e.target.value
+    });
+    if (title){
+
+      const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
+      const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&filter=ebooks&key=${KEY}`;
+
+      axios.get(URL)
+      .then(response => {
+
+        this.setState({
+          results: response.data.items.slice(0, 5)
+        })
+      })
+    } else {
+      this.setState({
+        results: []
+      });
+    }
   }
 
   render () {
@@ -36,9 +58,11 @@ class BookRequests extends Component {
 
 
           <form onSubmit={this.onSubmit}>
-          <input type="search" className="form-control" id="title"
+          <input type="search" autoComplete="off" className="form-control" id="title"
             onChange={this.onChange} value={this.state.title} placeholder="Add Request Title..."/>
           </form>
+
+          <Results results={this.state.results} addItem={(request) => this.addRequest(request)} />
 
         <section className="request-list">
           { requestList }

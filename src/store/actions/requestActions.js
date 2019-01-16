@@ -4,34 +4,25 @@ export const getRequests = requests => ({
 })
 
 
-export const addRequest = ({ title }) => {
+export const addRequest = (result) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
-
     const firestore = getFirestore();
     const userID = getState().firebase.auth.uid;
     ;
 
+    const request = {
+      title: result.title,
+      authors: result.authors,
+      img: result.imageLinks.smallThumbnail,
+      createdAt: new Date()
+    }
 
-    const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&filter=ebooks`;
-    fetch(URL, { method: 'GET' })
-    .then((response) => { response.json().then((response) => {
 
-        const results = response.items[0].volumeInfo;
-
-        const request = {
-          title: results.title,
-          authors: results.authors,
-          img: results.imageLinks.smallThumbnail,
-          createdAt: new Date(),
-          userID
-        }
-
-        firestore.collection('requests').add(request).then(() => {
-          dispatch({ type: 'ADD_REQUEST', request });
-        }).catch(error => {
-          dispatch({ type: 'ADD_REQUEST_ERROR', error })
-        })
-      })
+    firestore.collection('requests').add({
+      ...request,
+      userID
+    }).then(() => {
+      dispatch({ type: 'ADD_REQUEST', request });
     }).catch(error => {
       dispatch({ type: 'ADD_REQUEST_ERROR', error })
     });
@@ -77,7 +68,7 @@ export const requestExistingBook = (book) => {
     }
 
     firestore.collection('requests').add(request).then(() => {
-      dispatch({ type: 'ADD_REQUEST', requestInfo });
+      dispatch({ type: 'ADD_REQUEST', request: requestInfo });
     })
     .catch(error => {
       dispatch({ type: 'ADD_REQUEST_ERROR', error });

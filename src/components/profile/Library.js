@@ -64,7 +64,7 @@ class Library extends Component {
             onChange={this.onChange} value={this.state.title} placeholder="Add Book Title..."/>
           </form>
 
-          <Results results={this.state.results} addBook={(book) => this.addBook(book)} />
+          <Results results={this.state.results} addItem={(book) => this.addBook(book)} />
 
         <section className="book-list">
           { bookList }

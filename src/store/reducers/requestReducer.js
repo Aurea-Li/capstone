@@ -10,11 +10,18 @@ const requestReducer = (state = initState, action) => {
         requests: action.requests
       }
     case 'ADD_REQUEST':
+      if (!state.requests){
+        return state;
+      }
       return {
         ...state,
-        requests: [...state.requests, action.requestInfo]
+        requests: [...state.requests, action.request]
       }
     case 'REMOVE_REQUEST':
+
+    if (!state.requests){
+      return state;
+    }
 
     let index = 0;
     for (let i = 0; i < state.requests.length; i += 1){

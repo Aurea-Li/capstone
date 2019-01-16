@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Results = ({ results, addBook }) => {
+const Results = ({ results, addItem }) => {
 
   const resultsList = results.map((resultInfo, i) => {
     const result = resultInfo.volumeInfo;
     return (
-      <li key={i} onClick={() => addBook(result)}>
+      <li key={i} onClick={() => addItem(result)}>
         {result.title}
         <img src={result.imageLinks.smallThumbnail} alt={result.title} />
         <p>{result.authors ? result.authors.join(' ') : null}</p>
