@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import moment from 'moment'
 import AvailableBooks from './AvailableBooks'
 import BookRequests from './BookRequests'
 import { getMembers } from '../../store/actions/authActions'

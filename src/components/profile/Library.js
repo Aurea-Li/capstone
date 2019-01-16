@@ -10,6 +10,14 @@ class Library extends Component {
     results: []
   }
 
+  addBook = (book) => {
+    this.props.addBook(book);
+    this.setState({
+      title: '',
+      results: []
+    });
+  }
+
   onChange = (e) => {
 
     const title = e.target.value;
@@ -56,7 +64,7 @@ class Library extends Component {
             onChange={this.onChange} value={this.state.title} placeholder="Add Book Title..."/>
           </form>
 
-          <Results results={this.state.results} addBook={(book) => this.props.addBook(book)} />
+          <Results results={this.state.results} addBook={(book) => this.addBook(book)} />
 
         <section className="book-list">
           { bookList }
