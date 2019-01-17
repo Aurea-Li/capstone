@@ -25,7 +25,7 @@ class Library extends Component {
     this.setState({
       [e.target.id]: e.target.value
     });
-    if (title){
+    if (title.length !== 0){
 
       const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
       const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&filter=ebooks&key=${KEY}`;
@@ -33,9 +33,22 @@ class Library extends Component {
       axios.get(URL)
       .then(response => {
 
-        this.setState({
-          results: response.data.items.slice(0, 5)
-        })
+        if (response.data && response.data.items &&  response.data.items.length >= 5){
+          this.setState({
+            results: response.data.items.slice(0, 5)
+          })
+
+        }
+        else if (response.data && response.data.items){
+          this.setState({
+            results: response.data.items
+          })
+        }
+        else {
+          this.setState({
+            results: []
+          });
+        }
       })
     } else {
       this.setState({

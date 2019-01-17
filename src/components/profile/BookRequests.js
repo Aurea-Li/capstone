@@ -33,9 +33,22 @@ class BookRequests extends Component {
       axios.get(URL)
       .then(response => {
 
-        this.setState({
-          results: response.data.items.slice(0, 5)
-        })
+        if (response.data && response.data.items &&  response.data.items.length >= 5){
+          this.setState({
+            results: response.data.items.slice(0, 5)
+          })
+
+        }
+        else if (response.data && response.data.items){
+          this.setState({
+            results: response.data.items
+          })
+        }
+        else {
+          this.setState({
+            results: []
+          });
+        }
       })
     } else {
       this.setState({

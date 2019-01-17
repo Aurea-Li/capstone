@@ -22,7 +22,7 @@ const Item = ({ item, removeItem, returnBook }) => {
     <h4>{authors.join(', ')}</h4>
     <img src={img} alt={title} />
 
-    <div>
+    <div className="status">
     {status}
     {borrowerInfo}
       <button className="btn btn-primary" onClick={() => removeItem(item)}> Remove </button>
