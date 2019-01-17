@@ -9,7 +9,7 @@
 .library {
   grid-column: 1 / 2;
   padding: 2%;
-  position: relative;
+  display: in-line block;
 }
 
 .book-requests {
@@ -43,7 +43,7 @@
 .results {
   background-color: white;
   overflow: hidden;
-  position: absolute;
+  display: flex;
 }
 
 .results ul {
@@ -52,6 +52,8 @@
   flex-direction: column;
   padding: 0;
   margin: 0;
+  flex-grow: 1;
+  width: 0;
 }
 
 .results li {
