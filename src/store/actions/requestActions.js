@@ -14,7 +14,7 @@ export const addRequest = (result) => {
       title: result.title,
       authors: result.authors,
       img: result.imageLinks.smallThumbnail,
-      createdAt: new Date()
+    createdAt: new Date()
     }
 
 
@@ -22,7 +22,7 @@ export const addRequest = (result) => {
       ...request,
       userID
     }).then(() => {
-      dispatch({ type: 'ADD_REQUEST', request });
+      dispatch({ type: 'ADD_REQUEST_NEW', request });
     }).catch(error => {
       dispatch({ type: 'ADD_REQUEST_ERROR', error })
     });
@@ -68,7 +68,7 @@ export const requestExistingBook = (book) => {
     }
 
     firestore.collection('requests').add(request).then(() => {
-      dispatch({ type: 'ADD_REQUEST', request: requestInfo });
+      dispatch({ type: 'ADD_REQUEST_EXISTING', request: requestInfo });
     })
     .catch(error => {
       dispatch({ type: 'ADD_REQUEST_ERROR', error });

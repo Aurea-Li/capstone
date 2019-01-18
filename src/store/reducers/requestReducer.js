@@ -9,14 +9,17 @@ const requestReducer = (state = initState, action) => {
         ...state,
         requests: action.requests
       }
-    case 'ADD_REQUEST':
+    case 'ADD_REQUEST_EXISTING':
       if (!state.requests){
         return state;
       }
+
       return {
         ...state,
         requests: [...state.requests, action.request]
       }
+    case 'ADD_REQUEST_NEW':
+      return state;
     case 'REMOVE_REQUEST':
 
     if (!state.requests){

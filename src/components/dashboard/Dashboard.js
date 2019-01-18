@@ -22,7 +22,12 @@ class Dashboard extends Component {
     .then(response => {
 
       this.props.getGroups(response.data);
-      this.setState({ activeGroup: response.data[0] });
+      if (response.data.length === 0){
+        this.setState({ activeGroup: true });
+      }
+      else {
+        this.setState({ activeGroup: response.data[0] });
+      }
 
     })
     .catch(error => {
@@ -73,7 +78,7 @@ class Dashboard extends Component {
             selectGroup={(group) => this.selectGroup(group)} />
 
 
-            { activeGroup ? <GroupPage
+          { activeGroup !== true ? <GroupPage
               group={activeGroup}
               leaveGroup={() => this.leaveGroup(activeGroup)} /> : null }
           </div>
