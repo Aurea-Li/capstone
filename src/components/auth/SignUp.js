@@ -29,33 +29,33 @@ class SignUp extends Component {
 
     return (
 
-        <form onSubmit={this.onSubmit} >
-          <h5>Sign Up</h5>
+        <form onSubmit={this.onSubmit} className="form-signin" >
+          <h2 className="h3 mb-3 font-weight-normal">Sign Up</h2>
 
         <section className="error-messages">
           { authError ? <p>Error: {authError}</p> : null}
         </section>
 
           <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input type="text" id="firstName" className="form-control" onChange={this.onChange}/>
+            <label htmlFor="firstName" className="sr-only">First Name</label>
+            <input type="text" id="firstName" className="form-control" placeholder="First Name" onChange={this.onChange}/>
           </div>
 
           <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input type="text" id="lastName" className="form-control" onChange={this.onChange}/>
+            <label htmlFor="lastName" className="sr-only">Last Name</label>
+            <input type="text" id="lastName" className="form-control" placeholder="Last Name" onChange={this.onChange}/>
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" className="form-control" onChange={this.onChange}/>
+            <label htmlFor="email" className="sr-only">Email</label>
+            <input type="email" id="email" className="form-control" placeholder="Email Address" onChange={this.onChange}/>
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" className="form-control" onChange={this.onChange}/>
+            <label htmlFor="password" className="sr-only">Password</label>
+            <input type="password" id="password" className="form-control" placeholder="Password" onChange={this.onChange}/>
           </div>
-          <button className="btn btn-primary">Sign Up</button>
+          <button className="btn btn-primary btn-block">Sign Up</button>
         </form>
 
     );
