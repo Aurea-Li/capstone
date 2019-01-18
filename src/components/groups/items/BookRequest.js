@@ -13,8 +13,8 @@ const BookRequest = ({ requestInfo, fulfillRequest }) => {
       <p>Requested by: {requestInfo.user.firstName} {requestInfo.user.lastName}</p>
 
       <p>{moment(createdAt).calendar()}</p>
-
-      <button onClick={fulfillRequest}>Fulfill Request</button>
+      <img className="dashboard-book-img" src={requestInfo.request.img} alt={requestInfo.request.title} />
+      <button className="btn btn-primary" onClick={fulfillRequest}>Fulfill Request</button>
 
     </div>
   )

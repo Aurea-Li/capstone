@@ -26,6 +26,21 @@
   text-align: center;
 }
 
+.borrowed-book {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 2%;
+}
+
+.borrowed-book img {
+  width: 20%;
+  margin-left: 5%;
+}
+
+.borrowed-book h3, h4 {
+  grid-column: span 2;
+}
+
 .item {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -36,10 +51,6 @@
 .item > * {
   padding: 0;
   margin: 1%;
-}
-
-.item .status {
-
 }
 
 .item h3, h4 {

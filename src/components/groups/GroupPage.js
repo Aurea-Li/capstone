@@ -42,9 +42,11 @@ class GroupPage extends Component {
     const { group } = this.props;
     return (
       <div className="group-page">
-      <h3>{group.name}</h3>
 
-      <button onClick={this.props.leaveGroup}>Leave Group</button>
+        <div className="group-page-header">
+          <h3>{group.name}</h3>
+          <button className="btn btn-primary" onClick={this.props.leaveGroup}>Leave Group</button>
+        </div>
 
       <section>
       <h4>Members</h4>

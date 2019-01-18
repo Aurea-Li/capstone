@@ -8,8 +8,9 @@ const AvailableBook = ({ bookInfo, requestExistingBook }) => {
 
 
       <p>Owned by: {bookInfo.user.firstName} {bookInfo.user.lastName}</p>
+      <img className="dashboard-book-img" src={bookInfo.book.img} alt={bookInfo.book.title} />
 
-      <button onClick={requestExistingBook}>Request Book</button>
+      <button className="btn btn-primary" onClick={requestExistingBook}>Request Book</button>
 
     </div>
   )
