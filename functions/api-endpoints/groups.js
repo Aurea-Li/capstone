@@ -38,8 +38,9 @@ const groups = (request, response) => {
       response.status(500).send(error);
     });
   })
+  // user not found
   .catch(error => {
-    response.status(500).send(error);
+    response.json([]);
   });
 
 }

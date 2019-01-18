@@ -20,7 +20,6 @@ class Dashboard extends Component {
     const URL = `https://us-central1-al-capstone.cloudfunctions.net/app/groups?uid=${uid}`;
     axios.get(URL)
     .then(response => {
-
       this.props.getGroups(response.data);
       if (response.data.length === 0){
         this.setState({ activeGroup: true });
@@ -38,9 +37,14 @@ class Dashboard extends Component {
   componentDidUpdate(prevProps) {
 
     if (prevProps.groups !== this.props.groups){
-      this.setState({
-        activeGroup: this.props.groups[0]
-      });
+
+      if (this.props.groups.length === 0){
+        this.setState({ activeGroup: true });
+      } else {
+        this.setState({
+          activeGroup: this.props.groups[0]
+        });
+      }
     }
   }
 

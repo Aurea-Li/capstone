@@ -25,6 +25,7 @@ const bookRequests = (request, response) => {
       querySnapshot.forEach(query => {
 
         const userData = query.data();
+        console.log('userData', userData);
 
         userData.requests.forEach(requestID => {
           requestInfo.push({

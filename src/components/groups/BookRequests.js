@@ -44,7 +44,7 @@ class BookRequests extends Component {
 
 
     return (
-      <div>
+      <div className="bookrequests">
         <h4>Book Requests </h4>
         <ul>
           {requestList}
