@@ -96,8 +96,8 @@ export const joinGroup = (group) => {
       });
 
       if (alreadyJoined){
-        const error = { message: `already joined group ${group.name}`};
-        dispatch({ type: 'JOIN_GROUP_ERROR', error })
+        const error = { message: `Already joined group ${group.name}`};
+        dispatch({ type: 'JOIN_GROUP_ERROR', error });
       }
       else {
 
@@ -111,11 +111,15 @@ export const joinGroup = (group) => {
         ]
 
         Promise.all(promises).then(() => {
+
+            const alert = { message: `Successfully joined group ${group.name}`};
             dispatch({ type: 'JOIN_GROUP',
-            group
+            group,
+            alert
           });
         })
         .catch(error => {
+          debugger;
           dispatch({ type: 'JOIN_GROUP_ERROR', error });
         })
 

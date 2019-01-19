@@ -1,8 +1,4 @@
-const initState = {
-  groupError: null
-}
-
-const groupReducer = (state = initState, action) => {
+const groupReducer = (state = {}, action) => {
   switch(action.type){
     case 'GET_GROUPS':
       return {

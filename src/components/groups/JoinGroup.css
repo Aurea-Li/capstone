@@ -1,0 +1,13 @@
+.joingroup .grouplist {
+  display: flex;
+  flex-direction: column;
+}
+
+.joingroup ul li {
+  transition: 0.3s;
+  font-size: 2rem;
+}
+
+.joingroup ul li:hover {
+  color: #9068be;
+}

@@ -1,12 +1,12 @@
-ul {
+.navbar {
   display: flex;
   justify-content: flex-start;
   list-style-type: none;
-
   padding: 0 3% 0 3%;
+  width: 100rem;
 }
 
-li {
+.navbar li {
   margin: 0 2% 0 2%;
   transition: 0.3s;
 }

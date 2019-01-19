@@ -21,16 +21,12 @@ class CreateGroup extends Component {
   }
 
   render() {
-    const { auth, groupError } = this.props;
+    const { auth } = this.props;
     if (!auth.uid) return <Redirect to='/frontpage' />
 
     return (
       <form onSubmit={this.onSubmit} >
         <h5>Create Group</h5>
-
-      <section className="error-messages">
-        { groupError ? <p>Error: {groupError}</p> : null}
-      </section>
 
         <div className="form-group">
           <label htmlFor="name">Group Name</label>

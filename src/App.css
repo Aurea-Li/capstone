@@ -41,6 +41,10 @@ h2, h3, h4, h5, h6 {
   color: red;
 }
 
+.alert-message {
+  color: blue;
+}
+
 a {
   color: black;
   text-decoration: none;
@@ -53,6 +57,9 @@ a:hover {
     text-decoration: none;
 }
 
+li {
+  list-style-type: none;
+}
 
 .App {
   margin: 2% 7% 2% 7%;

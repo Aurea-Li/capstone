@@ -12,16 +12,22 @@ import './App.css'
 
 class App extends Component {
 
-  renderErrorMessage() {
+  renderErrorOrAlertMessage() {
     const { errorMessage } = this.props;
-
+    console.log(errorMessage);
+    let messageType;
     if (!errorMessage){
       return null;
     }
+    else if (errorMessage.type === 'error'){
+      messageType="error-message";
+    }
+    else if (errorMessage.type === 'alert'){
+      messageType="alert-message";
+    }
 
     return (
-
-      <section className="error-message">
+      <section className={messageType}>
         <b>{errorMessage.message}</b>
       </section>
     );
@@ -35,7 +41,7 @@ class App extends Component {
 
         <section className="header">
           <h1>The Lending Library</h1>
-          {this.renderErrorMessage()}
+          {this.renderErrorOrAlertMessage()}
         </section>
 
         <Switch>

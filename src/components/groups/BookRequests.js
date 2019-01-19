@@ -14,6 +14,7 @@ class BookRequests extends Component {
     axios.get(URL)
     .then(response => {
       this.props.getRequests(response.data);
+
     })
     .catch(error => {
       console.log('Error in book requests', error.message);

@@ -9,8 +9,18 @@ import { firebaseReducer } from 'react-redux-firebase'
 const errorMessage = (state = null, action) => {
 
   if (action.error) {
-    return action.error
-  } else  {
+    return {
+      ...action.error,
+      type: 'error'
+    }
+  }
+  else if (action.alert) {
+    return {
+      ...action.alert,
+      type: 'alert'
+    }
+  }
+  else  {
     return null;
   }
 }

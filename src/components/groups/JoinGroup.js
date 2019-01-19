@@ -1,43 +1,45 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
 import { joinGroup } from '../../store/actions/groupActions'
 import Navbar from '../layout/Navbar'
+import './JoinGroup.css'
 
-const  JoinGroup = (props) => {
+class JoinGroup extends Component {
 
-
-  const joinGroup = (group) => {
-    props.joinGroup(group);
-    props.history.push('/');
+  joinGroup = (group) => {
+    this.props.joinGroup(group);
   }
 
-  const { auth, groups } = props;
+  render() {
 
-  if (!auth.uid) return <Redirect to='/frontpage' />
+    const { auth, groups } = this.props;
 
-  const groupList = groups && groups.map((group, i) => {
-    return <li key={i} onClick={() => joinGroup(group)} >{group.name}</li>
-  })
+    if (!auth.uid) return <Redirect to='/frontpage' />
 
-  return (
-    <div>
-      <Navbar />
-      <h2>Available Groups</h2>
-      <ul>
-        {groupList}
-      </ul>
-    </div>
-  );
+    const groupList = groups && groups.map((group, i) => {
+      return <li key={i} onClick={() => this.joinGroup(group)} >{group.name}</li>
+    })
 
+    return (
+      <div className="joingroup">
+        <Navbar />
+        <h2>Available Groups</h2>
+        <ul className="grouplist">
+          {groupList}
+        </ul>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    groups: state.firestore.ordered.groups
+    groups: state.firestore.ordered.groups,
+    errorMessage: state.errorMessage
   }
 }
 
