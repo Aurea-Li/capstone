@@ -119,7 +119,6 @@ export const joinGroup = (group) => {
           });
         })
         .catch(error => {
-          debugger;
           dispatch({ type: 'JOIN_GROUP_ERROR', error });
         })
 
