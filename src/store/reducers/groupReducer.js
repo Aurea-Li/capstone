@@ -10,8 +10,12 @@ const groupReducer = (state = {}, action) => {
         ...state,
         groups: [...state.groups, action.group]
       }
-    case 'ADD_GROUP_ERROR':
-      return state;
+      case 'CREATE_GROUP':
+      console.log('inside create group', action.group);
+        return {
+          ...state,
+          groups: [...state.groups, action.group]
+        }
     case 'JOIN_GROUP':
       return {
         ...state,

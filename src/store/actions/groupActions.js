@@ -3,18 +3,25 @@ export const getGroups = groups => ({
   groups
 })
 
-export const createGroup = (group) => {
+export const createGroup = (groupData) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
 
     const firestore = getFirestore();
     const adminID = getState().firebase.auth.uid;
 
-    firestore.collection('groups').add({
-      ...group,
+    const newGroup = {
+      ...groupData,
       adminID,
       createdAt: new Date()
-    }).then(() => {
-      dispatch({ type: 'CREATE_GROUP' });
+    };
+
+    firestore.collection('groups').add(newGroup).then(query => {
+
+      const group = {
+        ...newGroup,
+        id: query.id
+      };
+      dispatch({ type: 'CREATE_GROUP', group });
     }).catch(error => {
       dispatch({ type: 'CREATE_GROUP_ERROR', error })
     })
