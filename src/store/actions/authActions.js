@@ -33,23 +33,32 @@ export const signUp = (newUser) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
 
-    firebase.auth().createUserWithEmailAndPassword(
-      newUser.email,
-      newUser.password
-    ).then((response) => {
-      return firestore.collection('users').doc(response.user.uid).set({
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        email: newUser.email,
-        createdAt: new Date(),
-        picture: null,
-        requests: [],
-        books: []
+    if (newUser.firstName.length > 0 && newUser.lastName.length > 0){
+
+      firebase.auth().createUserWithEmailAndPassword(
+        newUser.email,
+        newUser.password
+      ).then((response) => {
+        return firestore.collection('users').doc(response.user.uid).set({
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          email: newUser.email,
+          createdAt: new Date(),
+          picture: null,
+          requests: [],
+          books: []
+        })
+      }).then(() => {
+        dispatch({ type: 'SIGNUP_SUCCESS' })
+      }).catch( error => {
+        dispatch({ type: 'SIGNUP_ERROR', error })
       })
-    }).then(() => {
-      dispatch({ type: 'SIGNUP_SUCCESS' })
-    }).catch( error => {
-      dispatch({ type: 'SIGNUP_ERROR', error })
-    })
+    }
+    else {
+      const error = { message: 'First name or last name is invalid.' };
+      dispatch({ type: 'SIGNUP_ERROR', error });
+    }
+
   }
+
 }

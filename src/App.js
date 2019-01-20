@@ -14,7 +14,7 @@ class App extends Component {
 
   renderErrorOrAlertMessage() {
     const { errorMessage } = this.props;
-    console.log(errorMessage);
+
     let messageType;
     if (!errorMessage){
       return null;
