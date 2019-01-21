@@ -11,7 +11,6 @@ const groupReducer = (state = {}, action) => {
         groups: [...state.groups, action.group]
       }
       case 'CREATE_GROUP':
-      console.log('inside create group', action.group);
         return {
           ...state,
           groups: [...state.groups, action.group]
