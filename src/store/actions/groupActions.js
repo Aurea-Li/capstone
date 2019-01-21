@@ -9,23 +9,29 @@ export const createGroup = (groupData) => {
     const firestore = getFirestore();
     const adminID = getState().firebase.auth.uid;
 
-    const newGroup = {
-      ...groupData,
-      adminID,
-      createdAt: new Date()
-    };
-
-    firestore.collection('groups').add(newGroup).then(query => {
-
-      const group = {
-        ...newGroup,
-        id: query.id
+    if (!/\S/.test(groupData.name)){
+      const error = { message: 'Group name is invalid' };
+      dispatch({ type: 'CREATE_GROUP_ERROR', error });
+    }
+    else {
+      const newGroup = {
+        ...groupData,
+        adminID,
+        createdAt: new Date()
       };
-      dispatch({ type: 'CREATE_GROUP', group });
-    }).catch(error => {
-      dispatch({ type: 'CREATE_GROUP_ERROR', error })
-    })
-  }
+
+      firestore.collection('groups').add(newGroup).then(query => {
+
+        const group = {
+          ...newGroup,
+          id: query.id
+        };
+        dispatch({ type: 'CREATE_GROUP', group });
+      }).catch(error => {
+        dispatch({ type: 'CREATE_GROUP_ERROR', error })
+      })
+    }
+    }
 };
 
 export const leaveGroup = (group) => {
