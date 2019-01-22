@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { createGroup } from '../../store/actions/groupActions'
+import Navbar from '../layout/Navbar'
+import './CreateGroup.css'
 class CreateGroup extends Component {
 
   state = {
@@ -25,16 +27,19 @@ class CreateGroup extends Component {
     if (!auth.uid) return <Redirect to='/frontpage' />
 
     return (
-      <form onSubmit={this.onSubmit} >
-        <h5>Create Group</h5>
+      <div>
+        <Navbar />
+        <form onSubmit={this.onSubmit} className="form-signin">
+          <h2 className="h3 mb-3 font-weight-normal">Create Group</h2>
 
-        <div className="form-group">
-          <label htmlFor="name">Group Name</label>
-          <input type="text" id="name" className="form-control" onChange={this.onChange}/>
-        </div>
+          <div className="form-group">
+            <label htmlFor="name" className="sr-only">Group Name</label>
+            <input type="text" id="name" className="form-control" onChange={this.onChange} placeholder="Group Name"/>
+          </div>
 
-        <button className="btn btn-primary">Create Group</button>
-      </form>
+          <button className="btn btn-lg  btn-primary btn-block">Create Group</button>
+        </form>
+      </div>
     );
   }
 }

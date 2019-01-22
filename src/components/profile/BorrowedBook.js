@@ -1,9 +1,10 @@
 import React from 'react'
+import moment from 'moment'
 
 const BorrowedBook = ({ bookInfo }) => {
 
   const { book, user } = bookInfo;
-  const { title, authors, img } = book;
+  const { title, authors, img, borrowedDate } = book;
 
   return (
     <div className="borrowed-book">
@@ -13,7 +14,7 @@ const BorrowedBook = ({ bookInfo }) => {
 
     <div>
       <p>Owned by {user}</p>
-
+      <p>Borrowed on {moment(new Date(borrowedDate)).calendar()}</p>
     </div>
 
   </div>

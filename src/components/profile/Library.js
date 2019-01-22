@@ -28,7 +28,7 @@ class Library extends Component {
     if (title.length !== 0){
 
       const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
-      const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&filter=ebooks&key=${KEY}`;
+      const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&key=${KEY}`;
 
       axios.get(URL)
       .then(response => {

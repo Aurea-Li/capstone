@@ -15,3 +15,7 @@
 .signout-link {
   font-size: 2rem;
 }
+
+.signout-link:hover {
+  color: #9068be;
+}

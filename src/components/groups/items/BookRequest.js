@@ -9,13 +9,14 @@ const BookRequest = ({ requestInfo, fulfillRequest }) => {
     <div>
 
     <h5>{requestInfo.request.title}</h5>
+    <h6 className="authors">{requestInfo.request.authors.join('')}</h6>
+      <p>Requested by: {requestInfo.user.firstName} {requestInfo.user.lastName} <br />
+      </p>
 
-      <p>Requested by: {requestInfo.user.firstName} {requestInfo.user.lastName}</p>
-
-      <p>{moment(createdAt).calendar()}</p>
       <img className="dashboard-book-img" src={requestInfo.request.img} alt={requestInfo.request.title} />
       <button className="btn btn-primary" onClick={fulfillRequest}>Fulfill Request</button>
 
+      <p className="request-date">{moment(createdAt).calendar()}</p>
     </div>
   )
 }
