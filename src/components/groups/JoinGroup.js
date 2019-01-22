@@ -52,6 +52,6 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect(props => [
-    { collection: 'groups' }
+    { collection: 'groups', orderBy: 'name' }
   ])
 )(JoinGroup)

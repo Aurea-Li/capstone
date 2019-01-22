@@ -67,12 +67,35 @@ export const requestExistingBook = (book) => {
       user: profile
     }
 
-    firestore.collection('requests').add(request).then(() => {
-      dispatch({ type: 'ADD_REQUEST_EXISTING', request: requestInfo });
+    const requestQuery = firestore.collection('requests').where("title", "==", title).where("userID", "==", userID);
+    let requestExists = false;
+
+    requestQuery.get().then(querySnapshot => {
+
+      if (querySnapshot.docs.length > 1){
+        requestExists = true;
+      }
+
+      if (requestExists === true){
+        debugger;
+        const error = { message: `Request for ${title} already exists` };
+        dispatch({ type: 'ADD_REQUEST_ERROR', error });
+      }
+
+      else {
+        firestore.collection('requests').add(request).then(() => {
+          dispatch({ type: 'ADD_REQUEST_EXISTING', request: requestInfo });
+        })
+        .catch(error => {
+          dispatch({ type: 'ADD_REQUEST_ERROR', error });
+        })
+      }
+
     })
     .catch(error => {
       dispatch({ type: 'ADD_REQUEST_ERROR', error });
-    })
+    });
+
   }
 };
 

@@ -9,7 +9,7 @@ const Navbar = (props) => {
     <ul className="navbar">
       <li><NavLink to='/'>DASHBOARD</NavLink></li>
       <li><NavLink to='/profile'>PROFILE</NavLink></li>
-      <li onClick={props.signOut}> LOG OUT </li>
+      <li onClick={props.signOut} className="signout-link"> LOG OUT </li>
     </ul>
   )
 }
