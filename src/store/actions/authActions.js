@@ -33,7 +33,7 @@ export const signUp = (newUser) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
 
-    if (newUser.firstName.length > 0 && newUser.lastName.length > 0){
+    if (/\S/.test(newUser.firstName) && /\S/.test(newUser.lastName) ){
 
       firebase.auth().createUserWithEmailAndPassword(
         newUser.email,
