@@ -8,23 +8,38 @@ export const addRequest = (result) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
     const userID = getState().firebase.auth.uid;
-    ;
 
     const request = {
       title: result.title,
       authors: result.authors,
       img: result.imageLinks.smallThumbnail,
-    createdAt: new Date()
-    }
+      createdAt: new Date()
+    };
 
+    const requestQuery = firestore.collection('requests').where("title", "==", result.title).where("userID", "==", userID);
 
-    firestore.collection('requests').add({
-      ...request,
-      userID
-    }).then(() => {
-      dispatch({ type: 'ADD_REQUEST_NEW', request });
-    }).catch(error => {
-      dispatch({ type: 'ADD_REQUEST_ERROR', error })
+    requestQuery.get().then(querySnapshot => {
+
+      if (querySnapshot.docs.length > 0){
+
+        const error = { message: `Request for ${result.title} already exists` };
+        dispatch({ type: 'ADD_REQUEST_ERROR', error });
+      }
+
+      else {
+
+        firestore.collection('requests').add({
+          ...request,
+          userID
+        }).then(() => {
+          dispatch({ type: 'ADD_REQUEST_NEW', request });
+        }).catch(error => {
+          dispatch({ type: 'ADD_REQUEST_ERROR', error });
+        });
+      }
+    })
+    .catch(error => {
+      dispatch({ type: 'ADD_REQUEST_ERROR', error });
     });
   }
 };
@@ -68,16 +83,11 @@ export const requestExistingBook = (book) => {
     }
 
     const requestQuery = firestore.collection('requests').where("title", "==", title).where("userID", "==", userID);
-    let requestExists = false;
 
     requestQuery.get().then(querySnapshot => {
 
-      if (querySnapshot.docs.length > 1){
-        requestExists = true;
-      }
+      if (querySnapshot.docs.length > 0){
 
-      if (requestExists === true){
-        debugger;
         const error = { message: `Request for ${title} already exists` };
         dispatch({ type: 'ADD_REQUEST_ERROR', error });
       }

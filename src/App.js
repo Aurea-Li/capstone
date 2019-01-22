@@ -41,9 +41,9 @@ class App extends Component {
 
         <section className="header">
           <h1>The Lending Library</h1>
-          {this.renderErrorOrAlertMessage()}
         </section>
 
+        {this.renderErrorOrAlertMessage()}
         <Switch>
           <Route exact path='/' component={Dashboard} />
           <Route path= '/profile' component={Profile} />
@@ -53,6 +53,7 @@ class App extends Component {
           <Route path='/creategroup' component={CreateGroup} />
           <Route path='/joingroup' component={JoinGroup} />
         </Switch>
+
 
       </div>
     </BrowserRouter>
