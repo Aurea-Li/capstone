@@ -12,7 +12,7 @@ const Navbar = (props) => {
       <li><NavLink to='/'>DASHBOARD</NavLink></li>
       <li><NavLink to='/profile'>PROFILE</NavLink></li>
       <li onClick={props.signOut} className="signout-link"> LOG OUT </li>
-      <li className="user-name">{profile.firstName} {profile.lastName}</li>
+      <li className="user-name">Welcome {profile.firstName} {profile.lastName}</li>
     </nav>
   )
 }
