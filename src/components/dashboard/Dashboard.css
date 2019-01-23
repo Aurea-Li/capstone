@@ -13,6 +13,11 @@
   margin-left: 20%;
 }
 
+.group-links .join-group {
+  border-bottom: 1px solid rgb(56, 13, 99);
+  margin-bottom: 5%;
+  margin-right: 50%;
+}
 
 .group-links ul {
   display: flex;

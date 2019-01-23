@@ -9,7 +9,7 @@ const BorrowedBook = ({ bookInfo }) => {
   return (
     <div className="borrowed-book">
     <h3>{title}</h3>
-    <h4>{authors.join(', ')}</h4>
+    <h4 className="profile-authors">{authors.join(', ')}</h4>
     <img src={img} alt={title} />
 
     <div>

@@ -63,6 +63,10 @@
   margin-left: 5%;
 }
 
+.profile-authors {
+  color: rgb(56, 13, 99);
+}
+
 .results {
   background-color: white;
   overflow: hidden;

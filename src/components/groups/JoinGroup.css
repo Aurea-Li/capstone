@@ -7,6 +7,10 @@
   flex-direction: column;
 }
 
+.joingroup h2 {
+  border-bottom: 1px solid rgb(56, 13, 99);
+}
+
 .joingroup ul li {
   transition: 0.3s;
   font-size: 2rem;

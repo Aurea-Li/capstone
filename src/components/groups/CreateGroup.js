@@ -30,7 +30,6 @@ class CreateGroup extends Component {
       <div className="creategroup">
         <Navbar />
         <form onSubmit={this.onSubmit} className="form-signin">
-          <h2 className="h3 mb-3 font-weight-normal">Create Group</h2>
 
           <div className="form-group">
             <label htmlFor="name" className="sr-only">Group Name</label>
