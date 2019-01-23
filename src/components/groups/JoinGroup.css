@@ -1,3 +1,7 @@
+.joingroup {
+  margin-top: 5%;
+}
+
 .joingroup .grouplist {
   display: flex;
   flex-direction: column;

@@ -8,6 +8,10 @@
   font-size: 5rem;
 }
 
+.frontpage {
+  margin-top: 5%;
+}
+
 .frontpage .btn {
   width: 12rem;
   height: 3.5rem;

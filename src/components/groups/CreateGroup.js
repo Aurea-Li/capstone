@@ -27,7 +27,7 @@ class CreateGroup extends Component {
     if (!auth.uid) return <Redirect to='/frontpage' />
 
     return (
-      <div>
+      <div className="creategroup">
         <Navbar />
         <form onSubmit={this.onSubmit} className="form-signin">
           <h2 className="h3 mb-3 font-weight-normal">Create Group</h2>
