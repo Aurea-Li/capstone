@@ -61,7 +61,6 @@ const bookRequests = (request, response) => {
       .catch(error => {
         response.status(500).send({ error: 'first promise failed' });
       })
-
     })
     .catch(error => {
       response.status(500).send({ error: 'second promise failed' });

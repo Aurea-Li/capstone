@@ -9,6 +9,8 @@ export const addRequest = (result) => {
     const firestore = getFirestore();
     const userID = getState().firebase.auth.uid;
 
+
+
     const request = {
       title: result.title,
       authors: result.authors,
@@ -16,31 +18,46 @@ export const addRequest = (result) => {
       createdAt: new Date()
     };
 
-    const requestQuery = firestore.collection('requests').where("title", "==", result.title).where("userID", "==", userID);
+    const bookQuery = firestore.collection('books').where("title", "==", result.title).where("userID", "==", userID);
 
-    requestQuery.get().then(querySnapshot => {
+    bookQuery.get().then(querySnapshot => {
 
       if (querySnapshot.docs.length > 0){
-
-        const error = { message: `Request for ${result.title} already exists` };
+        const error = {message: `You already have a copy of ${result.title} in your library` };
         dispatch({ type: 'ADD_REQUEST_ERROR', error });
       }
-
       else {
 
-        firestore.collection('requests').add({
-          ...request,
-          userID
-        }).then(() => {
-          dispatch({ type: 'ADD_REQUEST_NEW', request });
-        }).catch(error => {
+        const requestQuery = firestore.collection('requests').where("title", "==", result.title).where("userID", "==", userID);
+
+        requestQuery.get().then(querySnapshot => {
+
+          if (querySnapshot.docs.length > 0){
+
+            const error = { message: `Request for ${result.title} already exists` };
+            dispatch({ type: 'ADD_REQUEST_ERROR', error });
+          }
+          else {
+
+            firestore.collection('requests').add({
+              ...request,
+              userID
+            }).then(() => {
+              dispatch({ type: 'ADD_REQUEST_NEW', request });
+            }).catch(error => {
+              dispatch({ type: 'ADD_REQUEST_ERROR', error });
+            });
+          }
+        })
+        .catch(error => {
           dispatch({ type: 'ADD_REQUEST_ERROR', error });
         });
       }
     })
     .catch(error => {
-      dispatch({ type: 'ADD_REQUEST_ERROR', error });
-    });
+      dispatch({type: 'ADD_REQUEST_ERROR', error });
+    })
+
   }
 };
 
@@ -66,45 +83,60 @@ export const requestExistingBook = (book) => {
     const userID = getState().firebase.auth.uid;
     const profile = getState().firebase.profile;
 
+    const bookQuery = firestore.collection('books').where("title", "==", book.title).where("userID", "==", userID);
 
-    const { title, authors, img } = book;
-
-    const request = {
-      title,
-      authors,
-      img,
-      userID,
-      createdAt: new Date()
-    }
-
-    const requestInfo = {
-      request,
-      user: profile
-    }
-
-    const requestQuery = firestore.collection('requests').where("title", "==", title).where("userID", "==", userID);
-
-    requestQuery.get().then(querySnapshot => {
+    bookQuery.get().then(querySnapshot => {
 
       if (querySnapshot.docs.length > 0){
-
-        const error = { message: `Request for ${title} already exists` };
+        const error = {message: `You already have a copy of ${book.title} in your library` };
         dispatch({ type: 'ADD_REQUEST_ERROR', error });
       }
-
       else {
-        firestore.collection('requests').add(request).then(() => {
-          dispatch({ type: 'ADD_REQUEST_EXISTING', request: requestInfo });
+
+        const { title, authors, img } = book;
+
+        const request = {
+          title,
+          authors,
+          img,
+          userID,
+          createdAt: new Date()
+        }
+
+        const requestInfo = {
+          request,
+          user: profile
+        }
+
+        const requestQuery = firestore.collection('requests').where("title", "==", title).where("userID", "==", userID);
+
+        requestQuery.get().then(querySnapshot => {
+
+          if (querySnapshot.docs.length > 0){
+
+            const error = { message: `Request for ${title} already exists` };
+            dispatch({ type: 'ADD_REQUEST_ERROR', error });
+          }
+
+          else {
+            firestore.collection('requests').add(request).then(() => {
+              dispatch({ type: 'ADD_REQUEST_EXISTING', request: requestInfo });
+            })
+            .catch(error => {
+              dispatch({ type: 'ADD_REQUEST_ERROR', error });
+            })
+          }
+
         })
         .catch(error => {
           dispatch({ type: 'ADD_REQUEST_ERROR', error });
-        })
+        });
       }
-
     })
     .catch(error => {
       dispatch({ type: 'ADD_REQUEST_ERROR', error });
     });
+
 
   }
 };
