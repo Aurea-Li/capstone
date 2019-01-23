@@ -113,63 +113,68 @@ export const fulfillRequest = (request) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
 
     const firestore = getFirestore();
+    const userID = getState().firebase.auth.uid;
     const profile = getState().firebase.profile;
 
+    if (request.userID === userID){
 
-    const bookPromises = [];
-    profile.books.forEach(bookID => {
-      bookPromises.push(
-        firestore.collection('books').doc(`${bookID}`).get()
-      );
-    })
+      const error = { message: 'Cannot borrow your own book' };
+      dispatch({ type: 'REQUEST_FULFILLED_ERROR', error });
+    }
+    else {
+
+      const bookPromises = [];
+      profile.books.forEach(bookID => {
+        bookPromises.push(
+          firestore.collection('books').doc(`${bookID}`).get()
+        );
+      })
 
 
-    Promise.all(bookPromises).then(querySnapshot => {
+      Promise.all(bookPromises).then(querySnapshot => {
 
-      let foundBook = false;
-      querySnapshot.forEach(query => {
-        const book = query.data();
-        const bookID = query.id;
+        let foundBook = false;
+        querySnapshot.forEach(query => {
+          const book = query.data();
+          const bookID = query.id;
 
-        if (book.title === request.title
-          && book.authors.join('') === request.authors.join('')
-          && book.status === 'Available'){
+          if (book.title === request.title
+            && book.authors.join('') === request.authors.join('')
+            && book.status === 'Available'){
 
-            foundBook = true;
-            firestore.collection('users').doc(`${request.userID}`).get().then(query => {
+              foundBook = true;
+              firestore.collection('users').doc(`${request.userID}`).get().then(query => {
 
-              const requestUser = query.data();
+                const requestUser = query.data();
 
-              const promises = [
-                firestore.collection('books').doc(`${bookID}`).update({
-                  borrowerID: request.userID,
-                  borrowedDate: new Date(),
-                  borrowerFirstName: requestUser.firstName,
-                  borrowerLastName: requestUser.lastName,
-                  status: 'Unavailable'
-                }),
-                firestore.collection('requests').doc(`${request.id}`).delete()
-              ];
+                const promises = [
+                  firestore.collection('books').doc(`${bookID}`).update({
+                    borrowerID: request.userID,
+                    borrowedDate: new Date(),
+                    borrowerFirstName: requestUser.firstName,
+                    borrowerLastName: requestUser.lastName,
+                    status: 'Unavailable'
+                  }),
+                  firestore.collection('requests').doc(`${request.id}`).delete()
+                ];
 
-              Promise.all(promises).then(querySnapshot => {
+                Promise.all(promises).then(querySnapshot => {
 
-                firestore.collection('books').doc(`${bookID}`).get().then((updatedBook) => {
+                  firestore.collection('books').doc(`${bookID}`).get().then((updatedBook) => {
 
-                  const book = updatedBook.data();
-                  book.id = updatedBook.id;
+                    const book = updatedBook.data();
+                    book.id = updatedBook.id;
 
-                  dispatch({ type: 'REQUEST_FULFILLED', book })
-                  dispatch({ type: 'REMOVE_REQUEST', request })
+                    dispatch({ type: 'REQUEST_FULFILLED', book })
+                    dispatch({ type: 'REMOVE_REQUEST', request })
+                  })
                 })
-
+                .catch(error => {
+                  dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
+                })
               })
-              .catch(error => {
-                dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
-              })
-
-            })
-          }
-        })
+            }
+          })
 
           if (!foundBook){
             const error = {
@@ -177,9 +182,10 @@ export const fulfillRequest = (request) => {
             }
             dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
           }
-    })
-    .catch(error => {
-      dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
-    })
+        })
+        .catch(error => {
+          dispatch({ type: 'REQUEST_FULFILLED_ERROR', error })
+        })
+    }
   }
 }
