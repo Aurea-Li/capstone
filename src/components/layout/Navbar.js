@@ -5,13 +5,22 @@ import { signOut } from '../../store/actions/authActions'
 import './Navbar.css'
 
 const Navbar = (props) => {
+  const { profile } = props;
+
   return (
     <ul className="navbar">
       <li><NavLink to='/'>DASHBOARD</NavLink></li>
       <li><NavLink to='/profile'>PROFILE</NavLink></li>
       <li onClick={props.signOut} className="signout-link"> LOG OUT </li>
+      <li className="user-name">{profile.firstName} {profile.lastName}</li>
     </ul>
   )
+}
+
+const mapStateToProps = (state) => {
+  return {
+    profile: state.firebase.profile
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -20,4 +29,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

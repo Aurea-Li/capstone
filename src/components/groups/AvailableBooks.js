@@ -34,6 +34,9 @@ class AvailableBooks extends Component {
 
   render () {
     const { books } = this.props;
+
+    books && books.sort((a, b) => a.book.title.localeCompare(b.book.title));
+
     const bookList = books && books.map((bookInfo,i) => {
       return (
         <li key={i}>

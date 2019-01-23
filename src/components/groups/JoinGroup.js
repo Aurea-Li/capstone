@@ -17,6 +17,8 @@ class JoinGroup extends Component {
 
     const { auth, groups } = this.props;
 
+    groups && groups.sort((a, b) => a.name.localeCompare(b.name));
+
     if (!auth.uid) return <Redirect to='/frontpage' />
 
     const groupList = groups && groups.map((group, i) => {

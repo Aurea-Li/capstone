@@ -63,6 +63,8 @@ class BookRequests extends Component {
 
     let requestList;
 
+    requests && requests.sort((a, b) => a.title.localeCompare(b.title));
+
     if (requests !== undefined && requests.length === 0){
       requestList = <p className="empty-inventory">No Requests Made.</p>;
     } else {

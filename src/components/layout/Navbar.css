@@ -11,9 +11,16 @@
   transition: 0.3s;
 }
 
+.user-name {
+  font-size: 2rem;
+  margin-left: auto;
+  color: #9068be;
+}
+
 
 .signout-link {
   font-size: 2rem;
+  flex: 1;
 }
 
 .signout-link:hover {

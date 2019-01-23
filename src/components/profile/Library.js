@@ -61,6 +61,8 @@ class Library extends Component {
 
     const { books, removeBook, returnBook } = this.props;
 
+    books && books.sort((a, b) => a.title.localeCompare(b.title));
+
 
     let bookList;
 

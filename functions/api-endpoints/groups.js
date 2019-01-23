@@ -31,6 +31,9 @@ const groups = (request, response) => {
         };
       });
 
+
+      groups.sort((a, b) => a.name.localeCompare(b.name));
+
       response.json(groups);
 
     })

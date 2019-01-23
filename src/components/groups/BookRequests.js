@@ -34,6 +34,9 @@ class BookRequests extends Component {
 
   render () {
     const { requests, fulfillRequest } = this.props;
+
+    requests && requests.sort((a, b) => a.request.title.localeCompare(b.request.title));
+
     const requestList = requests && requests.map((requestInfo,i) => {
       return (
         <li key={i}>

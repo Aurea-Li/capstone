@@ -33,11 +33,11 @@ class Profile extends Component {
   render() {
     const { auth, books, requests, addBook, removeBook, addRequest, removeRequest, borrowedBooks, returnBook } = this.props;
 
-
     if (!auth.uid) return <Redirect to='/frontpage' />
     return (
       <div className="profile">
         <Navbar />
+
         <Library books={books} addBook={addBook} removeBook={removeBook} returnBook={returnBook} />
 
         <BookRequests requests={requests}

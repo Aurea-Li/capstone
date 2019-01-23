@@ -150,7 +150,7 @@ export const fulfillRequest = (request) => {
 
     if (request.userID === userID){
 
-      const error = { message: 'Cannot borrow your own book' };
+      const error = { message: 'Cannot fulfill your own request' };
       dispatch({ type: 'REQUEST_FULFILLED_ERROR', error });
     }
     else {
