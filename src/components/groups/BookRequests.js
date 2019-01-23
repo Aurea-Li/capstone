@@ -35,17 +35,30 @@ class BookRequests extends Component {
   render () {
     const { requests, fulfillRequest } = this.props;
 
-    requests && requests.sort((a, b) => a.request.title.localeCompare(b.request.title));
+    let requestList;
 
-    const requestList = requests && requests.map((requestInfo,i) => {
-      return (
-        <li key={i}>
-          <BookRequest requestInfo={requestInfo}
-            fulfillRequest={() => fulfillRequest(requestInfo.request)}/>
-        </li>
-      )
-    });
+    if (requests){
 
+      if (requests.length === 0){
+        requestList = <p>No requests currently available.</p>;
+      }
+      else {
+
+        requests.sort((a, b) => a.request.title.localeCompare(b.request.title));
+
+        requestList = requests.map((requestInfo,i) => {
+          return (
+            <li key={i}>
+              <BookRequest requestInfo={requestInfo}
+                fulfillRequest={() => fulfillRequest(requestInfo.request)}/>
+            </li>
+          )
+        });
+      }
+    }
+    else {
+      requestList = <p>Loading...</p>;
+    }
 
     return (
       <div className="bookrequests">

@@ -35,18 +35,32 @@ class AvailableBooks extends Component {
   render () {
     const { books } = this.props;
 
-    books && books.sort((a, b) => a.book.title.localeCompare(b.book.title));
+    let bookList;
 
-    const bookList = books && books.map((bookInfo,i) => {
-      return (
-        <li key={i}>
-          <AvailableBook
-            bookInfo={bookInfo}
-            requestExistingBook={() => this.props.requestExistingBook(bookInfo.book)}
-            />
-        </li>
-      )
-    });
+    if (books){
+
+      if (books.length === 0){
+        bookList = <p>No books currently available.</p>;
+      }
+      else {
+        
+        books.sort((a, b) => a.book.title.localeCompare(b.book.title));
+
+        bookList = books.map((bookInfo,i) => {
+          return (
+            <li key={i}>
+              <AvailableBook
+                bookInfo={bookInfo}
+                requestExistingBook={() => this.props.requestExistingBook(bookInfo.book)}
+                />
+            </li>
+          )
+        });
+      }
+    }
+    else {
+      bookList = <p>Loading...</p>;
+    }
 
     return (
       <div className="availablebooks">

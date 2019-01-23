@@ -28,6 +28,8 @@ const members = (request, response) => {
         };
       });
 
+      names && names.sort((a, b) => a.name.localeCompare(b.name));
+
       response.json(names);
 
     })
