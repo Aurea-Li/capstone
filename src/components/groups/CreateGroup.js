@@ -33,7 +33,7 @@ class CreateGroup extends Component {
 
           <div className="form-group">
             <label htmlFor="name" className="sr-only">Group Name</label>
-            <input type="text" id="name" className="form-control" onChange={this.onChange} placeholder="Group Name"/>
+            <input type="text" id="name" className="form-control" autoComplete="off" onChange={this.onChange} placeholder="Group Name"/>
           </div>
 
           <button className="btn btn-lg  btn-primary btn-block">Create Group</button>

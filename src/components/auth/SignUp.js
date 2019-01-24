@@ -38,22 +38,26 @@ class SignUp extends Component {
 
           <div className="form-group">
             <label htmlFor="firstName" className="sr-only">First Name</label>
-            <input type="text" id="firstName" className="form-control" placeholder="First Name" onChange={this.onChange}/>
+            <input type="text" id="firstName" className="form-control" placeholder="First Name"
+            autoComplete="off" onChange={this.onChange}/>
           </div>
 
           <div className="form-group">
             <label htmlFor="lastName" className="sr-only">Last Name</label>
-            <input type="text" id="lastName" className="form-control" placeholder="Last Name" onChange={this.onChange}/>
+            <input type="text" id="lastName" className="form-control" placeholder="Last Name"
+            autoComplete="off" onChange={this.onChange}/>
           </div>
 
           <div className="form-group">
             <label htmlFor="email" className="sr-only">Email</label>
-            <input type="email" id="email" className="form-control" placeholder="Email Address" onChange={this.onChange}/>
+            <input type="email" id="email" className="form-control" placeholder="Email Address"
+            autoComplete="off" onChange={this.onChange}/>
           </div>
 
           <div className="form-group">
             <label htmlFor="password" className="sr-only">Password</label>
-            <input type="password" id="password" className="form-control" placeholder="Password" onChange={this.onChange}/>
+            <input type="password" id="password" className="form-control" placeholder="Password"
+            autoComplete="off" onChange={this.onChange}/>
           </div>
           <button className="btn btn-primary btn-block">Sign Up</button>
         </form>

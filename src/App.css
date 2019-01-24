@@ -31,11 +31,13 @@ h2, h3, h4, h5, h6 {
 .error-message {
   color: red;
   font-size: 2rem;
+  margin-top: -1%;
 }
 
 .alert-message {
   color: green;
   font-size: 2rem;
+  margin-top: -1%;
 }
 
 a {
