@@ -78,7 +78,6 @@ export const removeRequest = (request) => {
 export const requestExistingBook = (book) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
 
-
     const firestore = getFirestore();
     const userID = getState().firebase.auth.uid;
     const profile = getState().firebase.profile;

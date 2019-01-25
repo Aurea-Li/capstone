@@ -3,8 +3,6 @@ import BorrowedBook from './BorrowedBook'
 
 const BorrowedBooks = ({ books }) => {
 
-  books && books.sort((a, b) => a.book.title.localeCompare(b.book.title));
-
   const bookList = books && books.map((book,i) => {
     return (<BorrowedBook key={i} bookInfo={book} />)
   })

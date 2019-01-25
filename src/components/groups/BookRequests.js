@@ -44,8 +44,6 @@ class BookRequests extends Component {
       }
       else {
 
-        requests.sort((a, b) => a.request.title.localeCompare(b.request.title));
-
         requestList = requests.map((requestInfo,i) => {
           return (
             <li key={i}>

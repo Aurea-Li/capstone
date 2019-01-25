@@ -27,7 +27,8 @@ class Library extends Component {
     });
     if (title.length !== 0){
 
-      const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
+      // const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
+      const KEY = 'AIzaSyCJvSa7mAq4zdeuQMKdQxSyfnaDlesTAkI';
       const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&key=${KEY}`;
 
       axios.get(URL)
@@ -50,6 +51,9 @@ class Library extends Component {
           });
         }
       })
+      .catch(error => {
+        console.log('Error in Google APi Library', error.message);
+      })
     } else {
       this.setState({
         results: []
@@ -60,9 +64,6 @@ class Library extends Component {
   render () {
 
     const { books, removeBook, returnBook } = this.props;
-
-    books && books.sort((a, b) => a.title.localeCompare(b.title));
-
 
     let bookList;
 

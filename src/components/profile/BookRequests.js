@@ -27,7 +27,8 @@ class BookRequests extends Component {
     });
     if (title){
 
-      const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
+      // const KEY= 'AIzaSyCJefqG9zaTxQ-yg-ubB685XySM7ZOl8kc';
+      const KEY = 'AIzaSyCJvSa7mAq4zdeuQMKdQxSyfnaDlesTAkI';
       const URL = `https://www.googleapis.com/books/v1/volumes?q=${title}&key=${KEY}`;
 
       axios.get(URL)
@@ -62,8 +63,6 @@ class BookRequests extends Component {
     const { requests, removeRequest } = this.props;
 
     let requestList;
-
-    requests && requests.sort((a, b) => a.title.localeCompare(b.title));
 
     if (requests !== undefined && requests.length === 0){
       requestList = <p className="empty-inventory">No Requests Made.</p>;

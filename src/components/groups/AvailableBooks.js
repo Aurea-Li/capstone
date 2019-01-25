@@ -43,8 +43,6 @@ class AvailableBooks extends Component {
         bookList = <p>No books currently available.</p>;
       }
       else {
-        
-        books.sort((a, b) => a.book.title.localeCompare(b.book.title));
 
         bookList = books.map((bookInfo,i) => {
           return (
