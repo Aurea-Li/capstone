@@ -10,4 +10,4 @@ Lots of popular books in the library have a high hold list. This website will he
 - Google Books API  
 
 ## Demo
-A demonstration of the functionality can be found [here on youtube](https://www.youtube.com/watch?v=JGH3J8CiON).
+A demonstration of the functionality can be found [here on youtube](https://youtu.be/JGH3J8CiONs).
