@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 const GroupLinks = ({ groups, selectGroup }) => {
 
+
   const groupList = groups && groups.map((group,i) => {
     return (<li key={i} onClick={() => selectGroup(group)}>{group.name}</li>)
   });
